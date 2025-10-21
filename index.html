@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lucefact — Model Introspection Laboratory</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+           <div class="version-badge">Alpha v0.5.0</div>
+        <h1 class="logo">Lucefact</h1>
+        <nav class="nav-labels">
+            <span class="nav-item">Upload</span>
+            <span class="nav-divider">·</span>
+            <span class="nav-item">Inspect</span>
+            <span class="nav-divider">·</span>
+            <span class="nav-item">Visualize</span>
+        </nav>
+    </header>
+
+    <!-- Main Container -->
+    <main class="main-container">
+        <!-- Side Panel -->
+        <aside class="side-panel">
+            <section class="panel-section" id="file-info">
+                <h2 class="section-title">File Information</h2>
+                <div class="divider"></div>
+                <div class="info-content" id="file-info-content">
+                    <p class="placeholder-text">No model loaded</p>
+                </div>
+            </section>
+
+            <section class="panel-section" id="model-stats">
+                <h2 class="section-title">Model Statistics</h2>
+                <div class="divider"></div>
+                <div class="info-content" id="model-stats-content">
+                    <p class="placeholder-text">Awaiting analysis</p>
+                </div>
+            </section>
+
+            <section class="panel-section" id="live-stats" style="display: none;">
+                <h2 class="section-title">Live Statistics</h2>
+                <div class="divider"></div>
+                <div class="info-content" id="live-stats-content">
+                    <div class="stat-item">
+                        <span class="stat-label">Memory Est.</span>
+                        <span class="stat-value" id="memory-est">--</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Complexity</span>
+                        <span class="stat-value" id="complexity">--</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Efficiency</span>
+                        <span class="stat-value" id="efficiency">--</span>
+                    </div>
+                </div>
+            </section>
+
+            <button class="upload-btn" id="upload-btn">
+                <span class="btn-text">Upload Model</span>
+            </button>
+            <input type="file" id="file-input" accept=".h5,.pt,.pth,.onnx,.pkl,.pickle,.pb,.tflite,.safetensors" hidden>
+        </aside>
+
+        <!-- Central Visualization Area -->
+        <section class="visualization-area">
+            <div class="viz-header">
+                <h2 class="viz-title">Architecture Map</h2>
+                <div class="viz-toolbar">
+                    <div class="search-container">
+                        <input type="text" id="layer-search" class="search-input" placeholder="Search layers..." style="display: none;">
+                    </div>
+                    <div class="layout-selector" id="layout-selector" style="display: none;">
+                        <span class="toolbar-label">Layout:</span>
+                        <button class="layout-btn active" id="layout-vertical" title="Vertical Flow">Vertical</button>
+                        <button class="layout-btn" id="layout-horizontal" title="Horizontal Flow">Horizontal</button>
+                        <button class="layout-btn" id="layout-circular" title="Circular">Circular</button>
+                        <button class="layout-btn" id="layout-tree" title="Tree View">Tree</button>
+                    </div>
+                    <div class="export-controls" id="export-controls" style="display: none;">
+                        <span class="toolbar-label">Export:</span>
+                        <button class="control-btn" id="export-image" title="Export as PNG">PNG</button>
+                        <button class="control-btn" id="export-json" title="Export as JSON">JSON</button>
+                    </div>
+                </div>
+            </div>
+            <div class="viz-canvas" id="viz-canvas">
+                <div class="viz-placeholder">
+                    <p class="viz-placeholder-text">Upload a model to begin introspection</p>
+                </div>
+            </div>
+            
+        </section>
+    </main>
+
+    <!-- Layer Comparison Panel -->
+    <aside class="comparison-panel" id="comparison-panel" style="display: none;">
+        <div class="comparison-header">
+            <h3 class="comparison-title">Layer Comparison</h3>
+            <button class="close-btn" id="close-comparison">✕</button>
+        </div>
+        <div class="comparison-content" id="comparison-content">
+            <p class="comparison-placeholder">Select 2-3 layers to compare</p>
+        </div>
+    </aside>
+
+    <!-- Bottom Insights Section -->
+    <section class="insights-section" id="insights-section">
+        <div class="insights-tabs">
+            <button class="tab-btn active" data-tab="summary">Architecture Summary</button>
+            <button class="tab-btn" data-tab="distribution">Layer Distribution</button>
+            <button class="tab-btn" data-tab="density">Parameter Density</button>
+            <button class="tab-btn" data-tab="issues">Potential Issues</button>
+        </div>
+        <div class="insights-content">
+            <div class="tab-content active" id="tab-summary">
+                <p class="insight-placeholder">Load a model to generate insights</p>
+            </div>
+            <div class="tab-content" id="tab-distribution">
+                <p class="insight-placeholder">Load a model to generate insights</p>
+            </div>
+            <div class="tab-content" id="tab-density">
+                <p class="insight-placeholder">Load a model to generate insights</p>
+            </div>
+            <div class="tab-content" id="tab-issues">
+                <p class="insight-placeholder">Load a model to generate insights</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p class="footer-text">Lucefact — illuminating your models</p>
+    </footer>
+
+    <!-- Tooltip -->
+    <div class="tooltip" id="tooltip"></div>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loading-overlay">
+        <div class="loading-content">
+            <p class="loading-text">Analyzing model</p>
+            <div class="loading-bar"></div>
+        </div>
+    </div>
+
+    <script type="module" src="/src/main.ts"></script>
+</body>
+</html>
