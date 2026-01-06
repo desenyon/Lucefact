@@ -357,7 +357,16 @@ export class Visualizer {
     });
     
     // Add click to select
-    node.addEventListener('click', () => {
+    node.addEventListener('click', (e) => {
+      // Check if it's a double click for detail view
+      if ((e as any).detail === 2) {
+        const event = new CustomEvent('layerClick', { 
+          detail: layer
+        });
+        this.canvas.dispatchEvent(event);
+        return;
+      }
+      
       node.classList.toggle('selected');
       
       // Notify parent about selection change
@@ -452,22 +461,35 @@ export class Visualizer {
   }
 
   zoom(direction: 'in' | 'out') {
-    // No-op: user zoom is disabled
-    return;
+    if (direction === 'in') {
+      this.scale = Math.min(2, this.scale + 0.1);
+    } else {
+      this.scale = Math.max(0.5, this.scale - 0.1);
+    }
+    this.render();
   }
 
   reset() {
-    // No-op: view auto-sizes; manual reset unnecessary
-    return;
+    this.scale = 1;
+    this.translateX = 0;
+    this.translateY = 0;
+    this.render();
+  }
+
+  toggleLabels() {
+    this.canvas.classList.toggle('hide-labels');
+  }
+
+  toggleParams() {
+    this.canvas.classList.toggle('hide-params');
   }
 
   private render() {
     const container = this.canvas.querySelector('#viz-container') as HTMLElement;
     if (container) {
-      // No transform manipulation; layout handles its own sizing
-      container.style.transform = '';
-      container.style.transformOrigin = '';
-      container.style.transition = '';
+      container.style.transform = `scale(${this.scale}) translate(${this.translateX / this.scale}px, ${this.translateY / this.scale}px)`;
+      container.style.transformOrigin = 'center top';
+      container.style.transition = 'transform 0.2s ease';
     }
   }
 

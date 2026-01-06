@@ -1,140 +1,1451 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lucefact — Model Introspection Laboratory</title>
+    <title>Lucefact — Neural Architecture Intelligence</title>
     <link rel="stylesheet" href="/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 </head>
 <body>
-    <!-- Header -->
-    <header class="header">
-           <div class="version-badge">Alpha v0.5.0</div>
-        <h1 class="logo">Lucefact</h1>
-        <nav class="nav-labels">
-            <span class="nav-item">Upload</span>
-            <span class="nav-divider">·</span>
-            <span class="nav-item">Inspect</span>
-            <span class="nav-divider">·</span>
-            <span class="nav-item">Visualize</span>
-        </nav>
-    </header>
+    <!-- SVG Gradients for Molten Ash Effect -->
+    <svg width="0" height="0" style="position: absolute;">
+        <defs>
+            <linearGradient id="moltenGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" style="stop-color:#71717a">
+                    <animate attributeName="stop-color" values="#71717a;#9ca3af;#d4d4d8;#a1a1aa;#71717a" dur="4s" repeatCount="indefinite"/>
+                </stop>
+                <stop offset="25%" style="stop-color:#9ca3af">
+                    <animate attributeName="stop-color" values="#9ca3af;#d4d4d8;#a1a1aa;#71717a;#9ca3af" dur="4s" repeatCount="indefinite"/>
+                </stop>
+                <stop offset="50%" style="stop-color:#d4d4d8">
+                    <animate attributeName="stop-color" values="#d4d4d8;#a1a1aa;#71717a;#9ca3af;#d4d4d8" dur="4s" repeatCount="indefinite"/>
+                </stop>
+                <stop offset="75%" style="stop-color:#a1a1aa">
+                    <animate attributeName="stop-color" values="#a1a1aa;#71717a;#9ca3af;#d4d4d8;#a1a1aa" dur="4s" repeatCount="indefinite"/>
+                </stop>
+                <stop offset="100%" style="stop-color:#71717a">
+                    <animate attributeName="stop-color" values="#71717a;#9ca3af;#d4d4d8;#a1a1aa;#71717a" dur="4s" repeatCount="indefinite"/>
+                </stop>
+            </linearGradient>
+            <filter id="moltenGlow" x="-50%" y="-50%" width="200%" height="200%">
+                <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+                <feMerge>
+                    <feMergeNode in="coloredBlur"/>
+                    <feMergeNode in="SourceGraphic"/>
+                </feMerge>
+            </filter>
+        </defs>
+    </svg>
 
-    <!-- Main Container -->
-    <main class="main-container">
-        <!-- Side Panel -->
-        <aside class="side-panel">
-            <section class="panel-section" id="file-info">
-                <h2 class="section-title">File Information</h2>
-                <div class="divider"></div>
-                <div class="info-content" id="file-info-content">
-                    <p class="placeholder-text">No model loaded</p>
+    <!-- App Container -->
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <span class="logo-text">Lucefact</span>
+                <span class="version-tag">v2.67</span>
+            </div>
+
+            <nav class="sidebar-nav">
+                <div class="nav-section">
+                    <span class="nav-section-title">Workspace</span>
+                    <button class="nav-item active" data-view="dashboard">
+                        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="3" width="7" height="7" rx="1"/>
+                            <rect x="14" y="3" width="7" height="7" rx="1"/>
+                            <rect x="3" y="14" width="7" height="7" rx="1"/>
+                            <rect x="14" y="14" width="7" height="7" rx="1"/>
+                        </svg>
+                        <span>Dashboard</span>
+                    </button>
+                    <button class="nav-item" data-view="visualizer">
+                        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="3"/>
+                            <path d="M12 2v4M12 18v4M2 12h4M18 12h4"/>
+                            <path d="M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>
+                        </svg>
+                        <span>Architecture</span>
+                    </button>
+                    <button class="nav-item" data-view="analytics">
+                        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M3 3v18h18"/>
+                            <path d="M7 16l4-4 4 4 5-5"/>
+                        </svg>
+                        <span>Analytics</span>
+                    </button>
+                    <button class="nav-item" data-view="layers">
+                        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+                            <path d="M2 17l10 5 10-5"/>
+                            <path d="M2 12l10 5 10-5"/>
+                        </svg>
+                        <span>Layer Explorer</span>
+                    </button>
+                    <button class="nav-item" data-view="extraction">
+                        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+                            <path d="M7 10l5 5 5-5"/>
+                            <path d="M12 15V3"/>
+                        </svg>
+                        <span>Model Data</span>
+                    </button>
+                    <button class="nav-item" data-view="settings">
+                        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="3"/>
+                            <path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"/>
+                        </svg>
+                        <span>Settings</span>
+                    </button>
                 </div>
-            </section>
 
-            <section class="panel-section" id="model-stats">
-                <h2 class="section-title">Model Statistics</h2>
-                <div class="divider"></div>
-                <div class="info-content" id="model-stats-content">
-                    <p class="placeholder-text">Awaiting analysis</p>
-                </div>
-            </section>
-
-            <section class="panel-section" id="live-stats" style="display: none;">
-                <h2 class="section-title">Live Statistics</h2>
-                <div class="divider"></div>
-                <div class="info-content" id="live-stats-content">
-                    <div class="stat-item">
-                        <span class="stat-label">Memory Est.</span>
-                        <span class="stat-value" id="memory-est">--</span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-label">Complexity</span>
-                        <span class="stat-value" id="complexity">--</span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-label">Efficiency</span>
-                        <span class="stat-value" id="efficiency">--</span>
+                <div class="nav-section">
+                    <span class="nav-section-title">History</span>
+                    <div class="history-list" id="history-list">
+                        <div class="history-empty">No recent models</div>
                     </div>
                 </div>
-            </section>
+            </nav>
 
-            <button class="upload-btn" id="upload-btn">
-                <span class="btn-text">Upload Model</span>
-            </button>
-            <input type="file" id="file-input" accept=".h5,.pt,.pth,.onnx,.pkl,.pickle,.pb,.tflite,.safetensors" hidden>
+            <div class="sidebar-footer">
+                <button class="upload-trigger" id="upload-btn">
+                    <svg class="upload-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+                        <path d="M17 8l-5-5-5 5"/>
+                        <path d="M12 3v12"/>
+                    </svg>
+                    <span>Upload Model</span>
+                    <kbd class="shortcut">⌘U</kbd>
+                </button>
+                <input type="file" id="file-input" accept=".h5,.pt,.pth,.onnx,.pkl,.pickle,.pb,.tflite,.safetensors" hidden>
+                
+                <div class="sidebar-actions">
+                    <button class="action-btn" id="theme-toggle" title="Toggle Theme">
+                        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="5"/>
+                            <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+                        </svg>
+                        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>
+                        </svg>
+                    </button>
+                    <button class="action-btn" id="settings-btn" title="Settings">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="3"/>
+                            <path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"/>
+                        </svg>
+                    </button>
+                    <button class="action-btn" id="help-btn" title="Keyboard Shortcuts">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"/>
+                            <path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/>
+                            <path d="M12 17h.01"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
         </aside>
 
-        <!-- Central Visualization Area -->
-        <section class="visualization-area">
-            <div class="viz-header">
-                <h2 class="viz-title">Architecture Map</h2>
-                <div class="viz-toolbar">
-                    <div class="search-container">
-                        <input type="text" id="layer-search" class="search-input" placeholder="Search layers..." style="display: none;">
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <!-- Top Bar -->
+            <header class="top-bar">
+                <div class="breadcrumb">
+                    <span class="breadcrumb-item">Workspace</span>
+                    <svg class="breadcrumb-sep" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M9 18l6-6-6-6"/>
+                    </svg>
+                    <span class="breadcrumb-item active" id="current-view-name">Dashboard</span>
+                </div>
+                
+                <div class="top-bar-actions">
+                    <div class="search-global">
+                        <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="11" cy="11" r="8"/>
+                            <path d="M21 21l-4.35-4.35"/>
+                        </svg>
+                        <input type="text" id="global-search" placeholder="Search layers, types..." class="search-input">
+                        <kbd class="search-shortcut">⌘K</kbd>
                     </div>
-                    <div class="layout-selector" id="layout-selector" style="display: none;">
-                        <span class="toolbar-label">Layout:</span>
-                        <button class="layout-btn active" id="layout-vertical" title="Vertical Flow">Vertical</button>
-                        <button class="layout-btn" id="layout-horizontal" title="Horizontal Flow">Horizontal</button>
-                        <button class="layout-btn" id="layout-circular" title="Circular">Circular</button>
-                        <button class="layout-btn" id="layout-tree" title="Tree View">Tree</button>
+                    
+                    <div class="model-status" id="model-status">
+                        <div class="status-indicator offline"></div>
+                        <span class="status-text">No Model</span>
                     </div>
-                    <div class="export-controls" id="export-controls" style="display: none;">
-                        <span class="toolbar-label">Export:</span>
-                        <button class="control-btn" id="export-image" title="Export as PNG">PNG</button>
-                        <button class="control-btn" id="export-json" title="Export as JSON">JSON</button>
+                </div>
+            </header>
+
+            <!-- Dashboard View -->
+            <div class="view-container active" id="view-dashboard">
+                <!-- Welcome State -->
+                <div class="welcome-state" id="welcome-state">
+                    <div class="welcome-content">
+                        <div class="welcome-icon">
+                            <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <rect x="8" y="8" width="48" height="48" rx="8"/>
+                                <circle cx="32" cy="32" r="12"/>
+                                <path d="M32 14v8M32 42v8M14 32h8M42 32h8"/>
+                                <path d="M20 20l5.66 5.66M38.34 38.34L44 44M20 44l5.66-5.66M38.34 25.66L44 20"/>
+                            </svg>
+                        </div>
+                        <h1 class="welcome-title">Neural Architecture Intelligence</h1>
+                        <p class="welcome-subtitle">Drop a model file or click below to start analyzing your neural network architecture</p>
+                        
+                        <div class="upload-zone" id="upload-zone">
+                            <div class="upload-zone-content">
+                                <svg class="upload-zone-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                    <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+                                    <path d="M17 8l-5-5-5 5"/>
+                                    <path d="M12 3v12"/>
+                                </svg>
+                                <span class="upload-zone-text">Drag & drop your model here</span>
+                                <span class="upload-zone-hint">or click to browse</span>
+                            </div>
+                        </div>
+                        
+                        <div class="supported-formats">
+                            <span class="format-label">Supported:</span>
+                            <div class="format-tags">
+                                <span class="format-tag">.h5</span>
+                                <span class="format-tag">.pt</span>
+                                <span class="format-tag">.pth</span>
+                                <span class="format-tag">.onnx</span>
+                                <span class="format-tag">.pkl</span>
+                                <span class="format-tag">.safetensors</span>
+                            </div>
+                        </div>
+                        
+                        <div class="quick-actions">
+                            <button class="quick-action" id="load-sample">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
+                                    <path d="M14 2v6h6"/>
+                                    <path d="M12 18v-6"/>
+                                    <path d="M9 15l3-3 3 3"/>
+                                </svg>
+                                <span>Load Sample Model</span>
+                            </button>
+                            <button class="quick-action" id="view-docs">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/>
+                                    <path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/>
+                                </svg>
+                                <span>Documentation</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Dashboard Content (shown after model load) -->
+                <div class="dashboard-content" id="dashboard-content" style="display: none;">
+                    <!-- Health Score Card -->
+                    <div class="dashboard-grid">
+                        <div class="card health-card">
+                            <div class="card-header">
+                                <h3 class="card-title">Model Health Score</h3>
+                                <div class="card-badge" id="health-trend">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M23 6l-9.5 9.5-5-5L1 18"/>
+                                    </svg>
+                                    <span>Analyzing</span>
+                                </div>
+                            </div>
+                            <div class="health-score-container">
+                                <div class="health-score-ring">
+                                    <svg viewBox="0 0 120 120">
+                                        <circle cx="60" cy="60" r="54" class="score-bg"/>
+                                        <circle cx="60" cy="60" r="54" class="score-fill" id="health-ring"/>
+                                    </svg>
+                                    <div class="score-value" id="health-score">--</div>
+                                </div>
+                                <div class="health-metrics">
+                                    <div class="health-metric">
+                                        <span class="metric-label">Efficiency</span>
+                                        <div class="metric-bar">
+                                            <div class="metric-fill" id="efficiency-bar" style="width: 0%"></div>
+                                        </div>
+                                        <span class="metric-value" id="efficiency-value">--%</span>
+                                    </div>
+                                    <div class="health-metric">
+                                        <span class="metric-label">Complexity</span>
+                                        <div class="metric-bar">
+                                            <div class="metric-fill" id="complexity-bar" style="width: 0%"></div>
+                                        </div>
+                                        <span class="metric-value" id="complexity-value">--</span>
+                                    </div>
+                                    <div class="health-metric">
+                                        <span class="metric-label">Optimization</span>
+                                        <div class="metric-bar">
+                                            <div class="metric-fill" id="optimization-bar" style="width: 0%"></div>
+                                        </div>
+                                        <span class="metric-value" id="optimization-value">--%</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Quick Stats -->
+                        <div class="card stats-card">
+                            <div class="card-header">
+                                <h3 class="card-title">Quick Statistics</h3>
+                            </div>
+                            <div class="stats-grid">
+                                <div class="stat-box">
+                                    <div class="stat-icon">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+                                            <path d="M2 17l10 5 10-5"/>
+                                            <path d="M2 12l10 5 10-5"/>
+                                        </svg>
+                                    </div>
+                                    <div class="stat-info">
+                                        <span class="stat-number" id="stat-layers">--</span>
+                                        <span class="stat-label">Layers</span>
+                                    </div>
+                                </div>
+                                <div class="stat-box">
+                                    <div class="stat-icon">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <circle cx="12" cy="12" r="10"/>
+                                            <path d="M8 12h8"/>
+                                            <path d="M12 8v8"/>
+                                        </svg>
+                                    </div>
+                                    <div class="stat-info">
+                                        <span class="stat-number" id="stat-params">--</span>
+                                        <span class="stat-label">Parameters</span>
+                                    </div>
+                                </div>
+                                <div class="stat-box">
+                                    <div class="stat-icon">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <rect x="2" y="2" width="20" height="20" rx="2"/>
+                                            <path d="M7 10h10"/>
+                                            <path d="M7 14h6"/>
+                                        </svg>
+                                    </div>
+                                    <div class="stat-info">
+                                        <span class="stat-number" id="stat-memory">--</span>
+                                        <span class="stat-label">Memory</span>
+                                    </div>
+                                </div>
+                                <div class="stat-box">
+                                    <div class="stat-icon">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+                                        </svg>
+                                    </div>
+                                    <div class="stat-info">
+                                        <span class="stat-number" id="stat-trainable">--</span>
+                                        <span class="stat-label">Trainable</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Model Info Card -->
+                        <div class="card info-card">
+                            <div class="card-header">
+                                <h3 class="card-title">Model Information</h3>
+                                <button class="card-action" id="copy-info" title="Copy to clipboard">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <rect x="9" y="9" width="13" height="13" rx="2"/>
+                                        <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/>
+                                    </svg>
+                                </button>
+                            </div>
+                            <div class="info-list" id="model-info-list">
+                                <div class="info-row">
+                                    <span class="info-label">Name</span>
+                                    <span class="info-value" id="info-name">--</span>
+                                </div>
+                                <div class="info-row">
+                                    <span class="info-label">Framework</span>
+                                    <span class="info-value" id="info-framework">--</span>
+                                </div>
+                                <div class="info-row">
+                                    <span class="info-label">Format</span>
+                                    <span class="info-value" id="info-format">--</span>
+                                </div>
+                                <div class="info-row">
+                                    <span class="info-label">File Size</span>
+                                    <span class="info-value" id="info-size">--</span>
+                                </div>
+                                <div class="info-row">
+                                    <span class="info-label">Input Shape</span>
+                                    <span class="info-value" id="info-input">--</span>
+                                </div>
+                                <div class="info-row">
+                                    <span class="info-label">Output Shape</span>
+                                    <span class="info-value" id="info-output">--</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Layer Distribution -->
+                        <div class="card distribution-card">
+                            <div class="card-header">
+                                <h3 class="card-title">Layer Distribution</h3>
+                            </div>
+                            <div class="distribution-chart" id="distribution-chart">
+                                <div class="chart-placeholder">Load a model to see distribution</div>
+                            </div>
+                        </div>
+
+                        <!-- Issues & Recommendations -->
+                        <div class="card issues-card">
+                            <div class="card-header">
+                                <h3 class="card-title">Analysis & Recommendations</h3>
+                                <div class="issue-count" id="issue-count">0 items</div>
+                            </div>
+                            <div class="issues-list" id="issues-list">
+                                <div class="issue-empty">No issues detected</div>
+                            </div>
+                        </div>
+
+                        <!-- Export Actions -->
+                        <div class="card export-card">
+                            <div class="card-header">
+                                <h3 class="card-title">Export & Share</h3>
+                            </div>
+                            <div class="export-actions">
+                                <button class="export-btn" id="export-png">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <rect x="3" y="3" width="18" height="18" rx="2"/>
+                                        <circle cx="8.5" cy="8.5" r="1.5"/>
+                                        <path d="M21 15l-5-5L5 21"/>
+                                    </svg>
+                                    <span>Export PNG</span>
+                                </button>
+                                <button class="export-btn" id="export-json">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
+                                        <path d="M14 2v6h6"/>
+                                        <path d="M10 9H8"/>
+                                        <path d="M16 13H8"/>
+                                        <path d="M16 17H8"/>
+                                    </svg>
+                                    <span>Export JSON</span>
+                                </button>
+                                <button class="export-btn" id="export-svg">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
+                                        <path d="M14 2v6h6"/>
+                                    </svg>
+                                    <span>Export SVG</span>
+                                </button>
+                                <button class="export-btn" id="share-link">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <circle cx="18" cy="5" r="3"/>
+                                        <circle cx="6" cy="12" r="3"/>
+                                        <circle cx="18" cy="19" r="3"/>
+                                        <path d="M8.59 13.51l6.83 3.98"/>
+                                        <path d="M15.41 6.51l-6.82 3.98"/>
+                                    </svg>
+                                    <span>Copy Link</span>
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="viz-canvas" id="viz-canvas">
-                <div class="viz-placeholder">
-                    <p class="viz-placeholder-text">Upload a model to begin introspection</p>
+
+            <!-- Architecture Visualizer View -->
+            <div class="view-container" id="view-visualizer">
+                <div class="visualizer-container">
+                    <div class="viz-toolbar">
+                        <div class="toolbar-group">
+                            <span class="toolbar-label">Layout</span>
+                            <div class="toolbar-buttons">
+                                <button class="toolbar-btn active" id="layout-vertical" title="Vertical Flow">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <rect x="4" y="4" width="16" height="4" rx="1"/>
+                                        <rect x="4" y="10" width="16" height="4" rx="1"/>
+                                        <rect x="4" y="16" width="16" height="4" rx="1"/>
+                                    </svg>
+                                </button>
+                                <button class="toolbar-btn" id="layout-horizontal" title="Horizontal Flow">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <rect x="4" y="4" width="4" height="16" rx="1"/>
+                                        <rect x="10" y="4" width="4" height="16" rx="1"/>
+                                        <rect x="16" y="4" width="4" height="16" rx="1"/>
+                                    </svg>
+                                </button>
+                                <button class="toolbar-btn" id="layout-radial" title="Radial">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <circle cx="12" cy="12" r="8"/>
+                                        <circle cx="12" cy="12" r="3"/>
+                                    </svg>
+                                </button>
+                                <button class="toolbar-btn" id="layout-force" title="Force-Directed">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <circle cx="5" cy="5" r="2"/>
+                                        <circle cx="19" cy="5" r="2"/>
+                                        <circle cx="12" cy="12" r="2"/>
+                                        <circle cx="5" cy="19" r="2"/>
+                                        <circle cx="19" cy="19" r="2"/>
+                                        <path d="M7 5h10M5 7v10M19 7v10M7 19h10"/>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="toolbar-group">
+                            <span class="toolbar-label">Zoom</span>
+                            <div class="toolbar-buttons">
+                                <button class="toolbar-btn" id="zoom-out" title="Zoom Out">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <circle cx="11" cy="11" r="8"/>
+                                        <path d="M21 21l-4.35-4.35"/>
+                                        <path d="M8 11h6"/>
+                                    </svg>
+                                </button>
+                                <span class="zoom-level" id="zoom-level">100%</span>
+                                <button class="toolbar-btn" id="zoom-in" title="Zoom In">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <circle cx="11" cy="11" r="8"/>
+                                        <path d="M21 21l-4.35-4.35"/>
+                                        <path d="M11 8v6M8 11h6"/>
+                                    </svg>
+                                </button>
+                                <button class="toolbar-btn" id="zoom-fit" title="Fit to View">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M8 3H5a2 2 0 00-2 2v3"/>
+                                        <path d="M21 8V5a2 2 0 00-2-2h-3"/>
+                                        <path d="M3 16v3a2 2 0 002 2h3"/>
+                                        <path d="M16 21h3a2 2 0 002-2v-3"/>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="toolbar-group">
+                            <span class="toolbar-label">View</span>
+                            <div class="toolbar-buttons">
+                                <button class="toolbar-btn" id="toggle-minimap" title="Toggle Minimap">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <rect x="3" y="3" width="18" height="18" rx="2"/>
+                                        <rect x="13" y="13" width="6" height="6" rx="1"/>
+                                    </svg>
+                                </button>
+                                <button class="toolbar-btn" id="toggle-labels" title="Toggle Labels">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M4 7V4h16v3"/>
+                                        <path d="M9 20h6"/>
+                                        <path d="M12 4v16"/>
+                                    </svg>
+                                </button>
+                                <button class="toolbar-btn" id="toggle-params" title="Toggle Parameters">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M3 3v18h18"/>
+                                        <path d="M7 16l4-4 4 4 5-5"/>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="toolbar-spacer"></div>
+
+                        <div class="toolbar-group">
+                            <input type="text" id="layer-search" class="toolbar-search" placeholder="Search layers...">
+                        </div>
+                    </div>
+
+                    <div class="viz-canvas-wrapper">
+                        <div class="viz-canvas" id="viz-canvas">
+                            <div class="viz-placeholder">
+                                <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.5">
+                                    <circle cx="32" cy="32" r="24"/>
+                                    <path d="M32 20v8M32 36v8M20 32h8M36 32h8"/>
+                                </svg>
+                                <p>Load a model to visualize architecture</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Minimap -->
+                        <div class="minimap" id="minimap" style="display: none;">
+                            <div class="minimap-content" id="minimap-content"></div>
+                            <div class="minimap-viewport" id="minimap-viewport"></div>
+                        </div>
+                    </div>
+
+                    <!-- Layer Detail Sidebar -->
+                    <div class="layer-detail-panel" id="layer-detail-panel" style="display: none;">
+                        <div class="detail-header">
+                            <h3 class="detail-title" id="detail-layer-name">Layer Details</h3>
+                            <button class="detail-close" id="close-detail">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M18 6L6 18M6 6l12 12"/>
+                                </svg>
+                            </button>
+                        </div>
+                        <div class="detail-content" id="detail-content">
+                            <!-- Populated dynamically -->
+                        </div>
+                    </div>
                 </div>
             </div>
-            
-        </section>
-    </main>
 
-    <!-- Layer Comparison Panel -->
-    <aside class="comparison-panel" id="comparison-panel" style="display: none;">
-        <div class="comparison-header">
-            <h3 class="comparison-title">Layer Comparison</h3>
-            <button class="close-btn" id="close-comparison">✕</button>
-        </div>
-        <div class="comparison-content" id="comparison-content">
-            <p class="comparison-placeholder">Select 2-3 layers to compare</p>
-        </div>
-    </aside>
+            <!-- Analytics View -->
+            <div class="view-container" id="view-analytics">
+                <div class="analytics-container">
+                    <div class="analytics-header">
+                        <h2>Deep Analytics</h2>
+                        <p class="analytics-subtitle">Comprehensive analysis of your model's architecture and performance characteristics</p>
+                    </div>
 
-    <!-- Bottom Insights Section -->
-    <section class="insights-section" id="insights-section">
-        <div class="insights-tabs">
-            <button class="tab-btn active" data-tab="summary">Architecture Summary</button>
-            <button class="tab-btn" data-tab="distribution">Layer Distribution</button>
-            <button class="tab-btn" data-tab="density">Parameter Density</button>
-            <button class="tab-btn" data-tab="issues">Potential Issues</button>
-        </div>
-        <div class="insights-content">
-            <div class="tab-content active" id="tab-summary">
-                <p class="insight-placeholder">Load a model to generate insights</p>
-            </div>
-            <div class="tab-content" id="tab-distribution">
-                <p class="insight-placeholder">Load a model to generate insights</p>
-            </div>
-            <div class="tab-content" id="tab-density">
-                <p class="insight-placeholder">Load a model to generate insights</p>
-            </div>
-            <div class="tab-content" id="tab-issues">
-                <p class="insight-placeholder">Load a model to generate insights</p>
-            </div>
-        </div>
-    </section>
+                    <div class="analytics-grid">
+                        <!-- Parameter Distribution Chart -->
+                        <div class="analytics-card full-width">
+                            <div class="card-header">
+                                <h3 class="card-title">Parameter Distribution by Layer</h3>
+                            </div>
+                            <div class="chart-container" id="param-dist-chart">
+                                <div class="chart-placeholder">Load a model to see analytics</div>
+                            </div>
+                        </div>
 
-    <!-- Footer -->
-    <footer class="footer">
-        <p class="footer-text">Lucefact — illuminating your models</p>
-    </footer>
+                        <!-- Layer Type Breakdown -->
+                        <div class="analytics-card">
+                            <div class="card-header">
+                                <h3 class="card-title">Layer Type Breakdown</h3>
+                            </div>
+                            <div class="chart-container" id="layer-type-chart">
+                                <div class="chart-placeholder">--</div>
+                            </div>
+                        </div>
+
+                        <!-- Memory Analysis -->
+                        <div class="analytics-card">
+                            <div class="card-header">
+                                <h3 class="card-title">Memory Analysis</h3>
+                            </div>
+                            <div class="memory-breakdown" id="memory-breakdown">
+                                <div class="memory-item">
+                                    <span class="memory-label">Weights</span>
+                                    <span class="memory-value" id="mem-weights">--</span>
+                                </div>
+                                <div class="memory-item">
+                                    <span class="memory-label">Activations (Est.)</span>
+                                    <span class="memory-value" id="mem-activations">--</span>
+                                </div>
+                                <div class="memory-item">
+                                    <span class="memory-label">Gradients (Training)</span>
+                                    <span class="memory-value" id="mem-gradients">--</span>
+                                </div>
+                                <div class="memory-item total">
+                                    <span class="memory-label">Total Estimated</span>
+                                    <span class="memory-value" id="mem-total">--</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Computational Cost -->
+                        <div class="analytics-card">
+                            <div class="card-header">
+                                <h3 class="card-title">Computational Cost</h3>
+                            </div>
+                            <div class="cost-metrics">
+                                <div class="cost-metric">
+                                    <div class="cost-icon">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <rect x="4" y="4" width="16" height="16" rx="2"/>
+                                            <path d="M9 9h6v6H9z"/>
+                                        </svg>
+                                    </div>
+                                    <div class="cost-info">
+                                        <span class="cost-value" id="flops-estimate">--</span>
+                                        <span class="cost-label">Est. FLOPs</span>
+                                    </div>
+                                </div>
+                                <div class="cost-metric">
+                                    <div class="cost-icon">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <circle cx="12" cy="12" r="10"/>
+                                            <path d="M12 6v6l4 2"/>
+                                        </svg>
+                                    </div>
+                                    <div class="cost-info">
+                                        <span class="cost-value" id="inference-time">--</span>
+                                        <span class="cost-label">Est. Inference</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Top Heavy Layers -->
+                        <div class="analytics-card">
+                            <div class="card-header">
+                                <h3 class="card-title">Heaviest Layers</h3>
+                            </div>
+                            <div class="heavy-layers-list" id="heavy-layers">
+                                <div class="chart-placeholder">--</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Layer Explorer View -->
+            <div class="view-container" id="view-layers">
+                <div class="layers-container">
+                    <div class="layers-header">
+                        <h2>Layer Explorer</h2>
+                        <div class="layers-actions">
+                            <input type="text" id="layers-search" class="layers-search" placeholder="Filter layers...">
+                            <select id="layers-sort" class="layers-sort">
+                                <option value="index">By Index</option>
+                                <option value="name">By Name</option>
+                                <option value="type">By Type</option>
+                                <option value="params">By Parameters</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="layers-table-container">
+                        <table class="layers-table" id="layers-table">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Layer Name</th>
+                                    <th>Type</th>
+                                    <th>Parameters</th>
+                                    <th>Trainable</th>
+                                    <th>Input Shape</th>
+                                    <th>Output Shape</th>
+                                    <th>Activation</th>
+                                </tr>
+                            </thead>
+                            <tbody id="layers-tbody">
+                                <tr class="empty-row">
+                                    <td colspan="8">Load a model to explore layers</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Model Data Extraction View -->
+            <div class="view-container" id="view-extraction">
+                <div class="extraction-container">
+                    <div class="extraction-header">
+                        <h2>Model Data Extraction</h2>
+                        <p class="extraction-subtitle">Deep extraction of model parameters, training artifacts, and inferred metadata</p>
+                        <div class="extraction-actions">
+                            <button class="extraction-btn" id="export-all-data">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+                                    <path d="M7 10l5 5 5-5"/>
+                                    <path d="M12 15V3"/>
+                                </svg>
+                                Export All Data
+                            </button>
+                            <button class="extraction-btn secondary" id="copy-all-data">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="9" y="9" width="13" height="13" rx="2"/>
+                                    <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/>
+                                </svg>
+                                Copy to Clipboard
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="extraction-grid">
+                        <!-- Parameters Section -->
+                        <div class="extraction-card full-width">
+                            <div class="card-header">
+                                <h3 class="card-title">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <circle cx="12" cy="12" r="3"/>
+                                        <path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4"/>
+                                    </svg>
+                                    Parameter Statistics
+                                </h3>
+                                <button class="card-action copy-section" data-section="parameters">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <rect x="9" y="9" width="13" height="13" rx="2"/>
+                                        <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/>
+                                    </svg>
+                                </button>
+                            </div>
+                            <div class="params-grid" id="params-grid">
+                                <div class="param-stat">
+                                    <div class="param-stat-value" id="ext-total-params">--</div>
+                                    <div class="param-stat-label">Total Parameters</div>
+                                </div>
+                                <div class="param-stat">
+                                    <div class="param-stat-value" id="ext-trainable-params">--</div>
+                                    <div class="param-stat-label">Trainable</div>
+                                </div>
+                                <div class="param-stat">
+                                    <div class="param-stat-value" id="ext-frozen-params">--</div>
+                                    <div class="param-stat-label">Frozen</div>
+                                </div>
+                                <div class="param-stat">
+                                    <div class="param-stat-value" id="ext-param-memory">--</div>
+                                    <div class="param-stat-label">Memory (FP32)</div>
+                                </div>
+                                <div class="param-stat">
+                                    <div class="param-stat-value" id="ext-param-memory-fp16">--</div>
+                                    <div class="param-stat-label">Memory (FP16)</div>
+                                </div>
+                                <div class="param-stat">
+                                    <div class="param-stat-value" id="ext-param-density">--</div>
+                                    <div class="param-stat-label">Sparsity</div>
+                                </div>
+                            </div>
+                            <div class="param-breakdown" id="param-breakdown">
+                                <h4>Per-Layer Parameters</h4>
+                                <div class="param-breakdown-table" id="param-breakdown-table">
+                                    <!-- Populated dynamically -->
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Training Metadata -->
+                        <div class="extraction-card">
+                            <div class="card-header">
+                                <h3 class="card-title">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+                                    </svg>
+                                    Training Configuration
+                                </h3>
+                                <span class="extraction-badge" id="training-status">Extracting...</span>
+                            </div>
+                            <div class="training-info" id="training-info">
+                                <div class="info-section">
+                                    <h4>Optimizer</h4>
+                                    <div class="info-grid" id="optimizer-info">
+                                        <div class="info-item">
+                                            <span class="info-key">Type</span>
+                                            <span class="info-val" id="opt-type">--</span>
+                                        </div>
+                                        <div class="info-item">
+                                            <span class="info-key">Learning Rate</span>
+                                            <span class="info-val" id="opt-lr">--</span>
+                                        </div>
+                                        <div class="info-item">
+                                            <span class="info-key">Weight Decay</span>
+                                            <span class="info-val" id="opt-wd">--</span>
+                                        </div>
+                                        <div class="info-item">
+                                            <span class="info-key">Momentum</span>
+                                            <span class="info-val" id="opt-momentum">--</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="info-section">
+                                    <h4>Training Details</h4>
+                                    <div class="info-grid">
+                                        <div class="info-item">
+                                            <span class="info-key">Epochs</span>
+                                            <span class="info-val" id="train-epochs">--</span>
+                                        </div>
+                                        <div class="info-item">
+                                            <span class="info-key">Batch Size</span>
+                                            <span class="info-val" id="train-batch">--</span>
+                                        </div>
+                                        <div class="info-item">
+                                            <span class="info-key">Loss Function</span>
+                                            <span class="info-val" id="train-loss">--</span>
+                                        </div>
+                                        <div class="info-item">
+                                            <span class="info-key">Device</span>
+                                            <span class="info-val" id="train-device">--</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Preprocessing Artifacts -->
+                        <div class="extraction-card">
+                            <div class="card-header">
+                                <h3 class="card-title">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <rect x="3" y="3" width="18" height="18" rx="2"/>
+                                        <circle cx="8.5" cy="8.5" r="1.5"/>
+                                        <path d="M21 15l-5-5L5 21"/>
+                                    </svg>
+                                    Preprocessing Pipeline
+                                </h3>
+                                <span class="extraction-badge inferred" id="preprocess-status">Inferred</span>
+                            </div>
+                            <div class="preprocessing-info" id="preprocessing-info">
+                                <div class="info-section">
+                                    <h4>Normalization</h4>
+                                    <div class="info-grid">
+                                        <div class="info-item full">
+                                            <span class="info-key">Mean</span>
+                                            <span class="info-val code" id="norm-mean">--</span>
+                                        </div>
+                                        <div class="info-item full">
+                                            <span class="info-key">Std</span>
+                                            <span class="info-val code" id="norm-std">--</span>
+                                        </div>
+                                        <div class="info-item">
+                                            <span class="info-key">Type</span>
+                                            <span class="info-val" id="norm-type">--</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="info-section">
+                                    <h4>Input Transform</h4>
+                                    <div class="info-grid">
+                                        <div class="info-item">
+                                            <span class="info-key">Resize</span>
+                                            <span class="info-val" id="input-resize">--</span>
+                                        </div>
+                                        <div class="info-item">
+                                            <span class="info-key">Color Space</span>
+                                            <span class="info-val" id="input-colorspace">--</span>
+                                        </div>
+                                        <div class="info-item">
+                                            <span class="info-key">Input Range</span>
+                                            <span class="info-val" id="input-range">--</span>
+                                        </div>
+                                        <div class="info-item">
+                                            <span class="info-key">Channel Order</span>
+                                            <span class="info-val" id="input-channels">--</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="info-section">
+                                    <h4>Augmentations (Inferred)</h4>
+                                    <div class="augmentation-tags" id="augmentation-tags">
+                                        <span class="aug-tag">--</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Dataset Inference -->
+                        <div class="extraction-card">
+                            <div class="card-header">
+                                <h3 class="card-title">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/>
+                                        <path d="M3.27 6.96L12 12.01l8.73-5.05"/>
+                                        <path d="M12 22.08V12"/>
+                                    </svg>
+                                    Training Data Inference
+                                </h3>
+                                <span class="extraction-badge ai" id="dataset-status">AI Inferred</span>
+                            </div>
+                            <div class="dataset-info" id="dataset-info">
+                                <div class="info-section">
+                                    <h4>Possible Training Datasets</h4>
+                                    <div class="dataset-suggestions" id="dataset-suggestions">
+                                        <div class="dataset-item">
+                                            <span class="dataset-name">--</span>
+                                            <span class="dataset-confidence">--%</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="info-section">
+                                    <h4>Task Classification</h4>
+                                    <div class="info-grid">
+                                        <div class="info-item">
+                                            <span class="info-key">Input Type</span>
+                                            <span class="info-val" id="task-input-type">--</span>
+                                        </div>
+                                        <div class="info-item">
+                                            <span class="info-key">Task Type</span>
+                                            <span class="info-val" id="task-type">--</span>
+                                        </div>
+                                        <div class="info-item">
+                                            <span class="info-key">Num Classes</span>
+                                            <span class="info-val" id="task-classes">--</span>
+                                        </div>
+                                        <div class="info-item">
+                                            <span class="info-key">Est. Dataset Size</span>
+                                            <span class="info-val" id="task-dataset-size">--</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="info-section">
+                                    <h4>Detected Class Labels</h4>
+                                    <div class="class-labels" id="class-labels">
+                                        <span class="class-label">No class labels detected</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Architecture Detection -->
+                        <div class="extraction-card">
+                            <div class="card-header">
+                                <h3 class="card-title">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <circle cx="12" cy="12" r="3"/>
+                                        <path d="M12 2v4M12 18v4M2 12h4M18 12h4"/>
+                                    </svg>
+                                    Architecture Detection
+                                </h3>
+                                <span class="extraction-badge detected" id="arch-status">Detected</span>
+                            </div>
+                            <div class="architecture-info" id="architecture-info">
+                                <div class="arch-main">
+                                    <div class="arch-type" id="arch-type">Unknown</div>
+                                    <div class="arch-variant" id="arch-variant">--</div>
+                                </div>
+                                <div class="info-grid">
+                                    <div class="info-item">
+                                        <span class="info-key">Backbone</span>
+                                        <span class="info-val" id="arch-backbone">--</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <span class="info-key">Head</span>
+                                        <span class="info-val" id="arch-head">--</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <span class="info-key">Depth</span>
+                                        <span class="info-val" id="arch-depth">--</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <span class="info-key">Width</span>
+                                        <span class="info-val" id="arch-width">--</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Quantization Info -->
+                        <div class="extraction-card">
+                            <div class="card-header">
+                                <h3 class="card-title">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <rect x="4" y="4" width="16" height="16" rx="2"/>
+                                        <path d="M9 9h6v6H9z"/>
+                                        <path d="M9 1v3M15 1v3M9 20v3M15 20v3M20 9h3M20 14h3M1 9h3M1 14h3"/>
+                                    </svg>
+                                    Quantization & Optimization
+                                </h3>
+                            </div>
+                            <div class="quantization-info" id="quantization-info">
+                                <div class="quant-status" id="quant-status">
+                                    <div class="quant-indicator not-quantized"></div>
+                                    <span>Not Quantized</span>
+                                </div>
+                                <div class="info-grid">
+                                    <div class="info-item">
+                                        <span class="info-key">Precision</span>
+                                        <span class="info-val" id="quant-precision">FP32</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <span class="info-key">Model Size</span>
+                                        <span class="info-val" id="quant-size">--</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <span class="info-key">Potential FP16 Size</span>
+                                        <span class="info-val" id="quant-fp16-size">--</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <span class="info-key">Potential INT8 Size</span>
+                                        <span class="info-val" id="quant-int8-size">--</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Raw Data Export -->
+                        <div class="extraction-card full-width">
+                            <div class="card-header">
+                                <h3 class="card-title">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
+                                        <path d="M14 2v6h6"/>
+                                        <path d="M16 13H8"/>
+                                        <path d="M16 17H8"/>
+                                        <path d="M10 9H8"/>
+                                    </svg>
+                                    Raw Extracted Data
+                                </h3>
+                                <div class="card-actions">
+                                    <button class="card-action" id="copy-raw-data" title="Copy JSON">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <rect x="9" y="9" width="13" height="13" rx="2"/>
+                                            <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/>
+                                        </svg>
+                                    </button>
+                                    <button class="card-action" id="download-raw-data" title="Download JSON">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+                                            <path d="M7 10l5 5 5-5"/>
+                                            <path d="M12 15V3"/>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="raw-data-container">
+                                <pre class="raw-data-view" id="raw-data-view">// Load a model to see extracted data</pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Settings View -->
+            <div class="view-container" id="view-settings">
+                <div class="view-content">
+                    <div class="settings-layout">
+                        <!-- General Settings -->
+                        <div class="card settings-card">
+                            <div class="card-header">
+                                <h3 class="card-title">
+                                    <svg class="card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <circle cx="12" cy="12" r="3"/>
+                                        <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+                                    </svg>
+                                    General Settings
+                                </h3>
+                            </div>
+                            <div class="settings-section">
+                                <div class="setting-item">
+                                    <div class="setting-info">
+                                        <span class="setting-label">Theme</span>
+                                        <span class="setting-desc">Choose your preferred color scheme</span>
+                                    </div>
+                                    <select class="setting-select" id="setting-theme">
+                                        <option value="dark">Dark</option>
+                                        <option value="light">Light</option>
+                                        <option value="system">System</option>
+                                    </select>
+                                </div>
+                                <div class="setting-item">
+                                    <div class="setting-info">
+                                        <span class="setting-label">Auto-load sample</span>
+                                        <span class="setting-desc">Load sample model on startup</span>
+                                    </div>
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" id="setting-autoload">
+                                        <span class="toggle-slider"></span>
+                                    </label>
+                                </div>
+                                <div class="setting-item">
+                                    <div class="setting-info">
+                                        <span class="setting-label">Animation speed</span>
+                                        <span class="setting-desc">Control transition speeds</span>
+                                    </div>
+                                    <select class="setting-select" id="setting-animation">
+                                        <option value="fast">Fast</option>
+                                        <option value="normal" selected>Normal</option>
+                                        <option value="slow">Slow</option>
+                                        <option value="none">Disabled</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Visualizer Settings -->
+                        <div class="card settings-card">
+                            <div class="card-header">
+                                <h3 class="card-title">
+                                    <svg class="card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <circle cx="12" cy="12" r="3"/>
+                                        <path d="M12 2v4M12 18v4M2 12h4M18 12h4"/>
+                                    </svg>
+                                    Visualizer Settings
+                                </h3>
+                            </div>
+                            <div class="settings-section">
+                                <div class="setting-item">
+                                    <div class="setting-info">
+                                        <span class="setting-label">Default layout</span>
+                                        <span class="setting-desc">Initial visualization layout</span>
+                                    </div>
+                                    <select class="setting-select" id="setting-layout">
+                                        <option value="vertical" selected>Vertical</option>
+                                        <option value="horizontal">Horizontal</option>
+                                        <option value="radial">Radial</option>
+                                        <option value="force">Force-directed</option>
+                                    </select>
+                                </div>
+                                <div class="setting-item">
+                                    <div class="setting-info">
+                                        <span class="setting-label">Show parameter counts</span>
+                                        <span class="setting-desc">Display params on layer nodes</span>
+                                    </div>
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" id="setting-showparams" checked>
+                                        <span class="toggle-slider"></span>
+                                    </label>
+                                </div>
+                                <div class="setting-item">
+                                    <div class="setting-info">
+                                        <span class="setting-label">Show minimap</span>
+                                        <span class="setting-desc">Display navigation minimap</span>
+                                    </div>
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" id="setting-minimap">
+                                        <span class="toggle-slider"></span>
+                                    </label>
+                                </div>
+                                <div class="setting-item">
+                                    <div class="setting-info">
+                                        <span class="setting-label">Node size scaling</span>
+                                        <span class="setting-desc">Scale nodes by parameter count</span>
+                                    </div>
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" id="setting-scalenodes" checked>
+                                        <span class="toggle-slider"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Export Settings -->
+                        <div class="card settings-card">
+                            <div class="card-header">
+                                <h3 class="card-title">
+                                    <svg class="card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+                                        <path d="M7 10l5 5 5-5"/>
+                                        <path d="M12 15V3"/>
+                                    </svg>
+                                    Export Settings
+                                </h3>
+                            </div>
+                            <div class="settings-section">
+                                <div class="setting-item">
+                                    <div class="setting-info">
+                                        <span class="setting-label">Image quality</span>
+                                        <span class="setting-desc">PNG export resolution multiplier</span>
+                                    </div>
+                                    <select class="setting-select" id="setting-quality">
+                                        <option value="1">1x (Standard)</option>
+                                        <option value="2" selected>2x (High)</option>
+                                        <option value="3">3x (Ultra)</option>
+                                    </select>
+                                </div>
+                                <div class="setting-item">
+                                    <div class="setting-info">
+                                        <span class="setting-label">Include metadata in JSON</span>
+                                        <span class="setting-desc">Add full layer details to exports</span>
+                                    </div>
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" id="setting-metadata" checked>
+                                        <span class="toggle-slider"></span>
+                                    </label>
+                                </div>
+                                <div class="setting-item">
+                                    <div class="setting-info">
+                                        <span class="setting-label">Background in export</span>
+                                        <span class="setting-desc">Include background color in images</span>
+                                    </div>
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" id="setting-exportbg" checked>
+                                        <span class="toggle-slider"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Metrics Settings -->
+                        <div class="card settings-card">
+                            <div class="card-header">
+                                <h3 class="card-title">
+                                    <svg class="card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M3 3v18h18"/>
+                                        <path d="M7 16l4-4 4 4 5-5"/>
+                                    </svg>
+                                    Metrics & Analysis
+                                </h3>
+                            </div>
+                            <div class="settings-section">
+                                <div class="setting-item">
+                                    <div class="setting-info">
+                                        <span class="setting-label">Memory estimation precision</span>
+                                        <span class="setting-desc">Float32 (4B) vs Float16 (2B)</span>
+                                    </div>
+                                    <select class="setting-select" id="setting-precision">
+                                        <option value="fp32" selected>Float32 (4 bytes)</option>
+                                        <option value="fp16">Float16 (2 bytes)</option>
+                                        <option value="mixed">Mixed Precision</option>
+                                    </select>
+                                </div>
+                                <div class="setting-item">
+                                    <div class="setting-info">
+                                        <span class="setting-label">Show FLOPs estimates</span>
+                                        <span class="setting-desc">Display computational cost</span>
+                                    </div>
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" id="setting-flops" checked>
+                                        <span class="toggle-slider"></span>
+                                    </label>
+                                </div>
+                                <div class="setting-item">
+                                    <div class="setting-info">
+                                        <span class="setting-label">Health score threshold</span>
+                                        <span class="setting-desc">Minimum score for "healthy" badge</span>
+                                    </div>
+                                    <select class="setting-select" id="setting-healththreshold">
+                                        <option value="60">60 (Lenient)</option>
+                                        <option value="70" selected>70 (Standard)</option>
+                                        <option value="80">80 (Strict)</option>
+                                        <option value="90">90 (Very Strict)</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Data & Storage -->
+                        <div class="card settings-card">
+                            <div class="card-header">
+                                <h3 class="card-title">
+                                    <svg class="card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+                                        <path d="M2 17l10 5 10-5"/>
+                                        <path d="M2 12l10 5 10-5"/>
+                                    </svg>
+                                    Data & Storage
+                                </h3>
+                            </div>
+                            <div class="settings-section">
+                                <div class="setting-item">
+                                    <div class="setting-info">
+                                        <span class="setting-label">History limit</span>
+                                        <span class="setting-desc">Max recent models to remember</span>
+                                    </div>
+                                    <select class="setting-select" id="setting-historylimit">
+                                        <option value="5">5 models</option>
+                                        <option value="10" selected>10 models</option>
+                                        <option value="20">20 models</option>
+                                        <option value="50">50 models</option>
+                                    </select>
+                                </div>
+                                <div class="setting-item">
+                                    <div class="setting-info">
+                                        <span class="setting-label">Clear history</span>
+                                        <span class="setting-desc">Remove all recent models</span>
+                                    </div>
+                                    <button class="setting-btn danger" id="clear-history">Clear History</button>
+                                </div>
+                                <div class="setting-item">
+                                    <div class="setting-info">
+                                        <span class="setting-label">Reset all settings</span>
+                                        <span class="setting-desc">Restore defaults</span>
+                                    </div>
+                                    <button class="setting-btn" id="reset-settings">Reset to Defaults</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- About -->
+                        <div class="card settings-card about-card">
+                            <div class="card-header">
+                                <h3 class="card-title">
+                                    <svg class="card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <circle cx="12" cy="12" r="10"/>
+                                        <path d="M12 16v-4"/>
+                                        <path d="M12 8h.01"/>
+                                    </svg>
+                                    About Lucefact
+                                </h3>
+                            </div>
+                            <div class="about-section">
+                                <div class="about-logo">
+                                    <svg width="64" height="64" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5">
+                                        <rect x="2" y="2" width="28" height="28" rx="6"/>
+                                        <circle cx="16" cy="16" r="6"/>
+                                        <path d="M16 4v6M16 22v6M4 16h6M22 16h6"/>
+                                    </svg>
+                                </div>
+                                <div class="about-info">
+                                    <h4>Lucefact</h4>
+                                    <p class="about-version">Version 2.67.0</p>
+                                    <p class="about-desc">Neural Architecture Intelligence Platform</p>
+                                    <p class="about-copyright">© 2026 Lucefact. All rights reserved.</p>
+                                </div>
+                                <div class="about-stats">
+                                    <div class="about-stat">
+                                        <span class="about-stat-value" id="total-models-analyzed">0</span>
+                                        <span class="about-stat-label">Models Analyzed</span>
+                                    </div>
+                                    <div class="about-stat">
+                                        <span class="about-stat-value" id="total-params-processed">0</span>
+                                        <span class="about-stat-label">Parameters Processed</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Layer Comparison Modal -->
+    <div class="modal" id="comparison-modal" style="display: none;">
+        <div class="modal-overlay"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Layer Comparison</h3>
+                <button class="modal-close" id="close-comparison">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M18 6L6 18M6 6l12 12"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body" id="comparison-content">
+                <p class="comparison-hint">Select 2-3 layers to compare</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Keyboard Shortcuts Modal -->
+    <div class="modal" id="shortcuts-modal" style="display: none;">
+        <div class="modal-overlay"></div>
+        <div class="modal-content shortcuts-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Keyboard Shortcuts</h3>
+                <button class="modal-close" id="close-shortcuts">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M18 6L6 18M6 6l12 12"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="shortcuts-list">
+                    <div class="shortcut-group">
+                        <h4>General</h4>
+                        <div class="shortcut-item"><kbd>⌘</kbd><kbd>U</kbd><span>Upload Model</span></div>
+                        <div class="shortcut-item"><kbd>⌘</kbd><kbd>K</kbd><span>Search</span></div>
+                        <div class="shortcut-item"><kbd>⌘</kbd><kbd>T</kbd><span>Toggle Theme</span></div>
+                        <div class="shortcut-item"><kbd>?</kbd><span>Show Shortcuts</span></div>
+                    </div>
+                    <div class="shortcut-group">
+                        <h4>Navigation</h4>
+                        <div class="shortcut-item"><kbd>1</kbd><span>Dashboard</span></div>
+                        <div class="shortcut-item"><kbd>2</kbd><span>Architecture</span></div>
+                        <div class="shortcut-item"><kbd>3</kbd><span>Analytics</span></div>
+                        <div class="shortcut-item"><kbd>4</kbd><span>Layer Explorer</span></div>
+                        <div class="shortcut-item"><kbd>5</kbd><span>Model Data</span></div>
+                        <div class="shortcut-item"><kbd>6</kbd><span>Settings</span></div>
+                    </div>
+                    <div class="shortcut-group">
+                        <h4>Visualizer</h4>
+                        <div class="shortcut-item"><kbd>+</kbd><span>Zoom In</span></div>
+                        <div class="shortcut-item"><kbd>-</kbd><span>Zoom Out</span></div>
+                        <div class="shortcut-item"><kbd>0</kbd><span>Fit to View</span></div>
+                        <div class="shortcut-item"><kbd>M</kbd><span>Toggle Minimap</span></div>
+                    </div>
+                    <div class="shortcut-group">
+                        <h4>Export</h4>
+                        <div class="shortcut-item"><kbd>⌘</kbd><kbd>E</kbd><span>Export PNG</span></div>
+                        <div class="shortcut-item"><kbd>⌘</kbd><kbd>S</kbd><span>Export JSON</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div class="toast-container" id="toast-container"></div>
 
     <!-- Tooltip -->
     <div class="tooltip" id="tooltip"></div>
@@ -142,8 +1453,13 @@
     <!-- Loading Overlay -->
     <div class="loading-overlay" id="loading-overlay">
         <div class="loading-content">
-            <p class="loading-text">Analyzing model</p>
-            <div class="loading-bar"></div>
+            <div class="loading-spinner">
+                <svg viewBox="0 0 50 50">
+                    <circle cx="25" cy="25" r="20" fill="none" stroke="currentColor" stroke-width="3"/>
+                </svg>
+            </div>
+            <p class="loading-text">Analyzing Architecture</p>
+            <p class="loading-subtext" id="loading-status">Processing model file...</p>
         </div>
     </div>
 
