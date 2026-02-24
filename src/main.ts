@@ -236,7 +236,7 @@ class LucefactApp {
 
   // ==================== NAVIGATION ====================
   private setupNavigationHandlers() {
-    const navItems = document.querySelectorAll('.nav-item[data-view]');
+    const navItems = document.querySelectorAll('.nav-link[data-view]');
     navItems.forEach(item => {
       item.addEventListener('click', () => {
         const view = item.getAttribute('data-view');
@@ -247,7 +247,7 @@ class LucefactApp {
 
   private switchView(viewName: string) {
     // Update nav items
-    document.querySelectorAll('.nav-item[data-view]').forEach(item => {
+    document.querySelectorAll('.nav-link[data-view]').forEach(item => {
       item.classList.toggle('active', item.getAttribute('data-view') === viewName);
     });
 
@@ -680,7 +680,7 @@ Size: ${(this.currentMetadata.fileSize / (1024 * 1024)).toFixed(2)} MB
     document.getElementById('stat-layers')!.textContent = metadata.totalLayers.toString();
     document.getElementById('stat-params')!.textContent = this.formatNumber(metadata.totalParameters);
     document.getElementById('stat-memory')!.textContent = this.formatBytes(metadata.totalParameters * 4);
-    document.getElementById('stat-trainable')!.textContent = 
+    document.getElementById('stat-trainable')!.textContent =
       `${((metadata.trainableParameters / metadata.totalParameters) * 100).toFixed(0)}%`;
 
     // Model Info
@@ -688,9 +688,9 @@ Size: ${(this.currentMetadata.fileSize / (1024 * 1024)).toFixed(2)} MB
     document.getElementById('info-framework')!.textContent = metadata.framework;
     document.getElementById('info-format')!.textContent = metadata.format;
     document.getElementById('info-size')!.textContent = this.formatBytes(metadata.fileSize);
-    document.getElementById('info-input')!.textContent = 
+    document.getElementById('info-input')!.textContent =
       metadata.inputShape ? `[${metadata.inputShape.join(', ')}]` : 'Unknown';
-    document.getElementById('info-output')!.textContent = 
+    document.getElementById('info-output')!.textContent =
       metadata.outputShape ? `[${metadata.outputShape.join(', ')}]` : 'Unknown';
 
     // Layer Distribution
@@ -798,8 +798,8 @@ Size: ${(this.currentMetadata.fileSize / (1024 * 1024)).toFixed(2)} MB
     container.innerHTML = `
       <div class="dist-bar-container">
         ${sorted.map(([type, count]) => {
-          const percentage = (count / total) * 100;
-          return `
+      const percentage = (count / total) * 100;
+      return `
             <div class="dist-bar-item">
               <span class="dist-bar-label">${type}</span>
               <div class="dist-bar-track">
@@ -810,7 +810,7 @@ Size: ${(this.currentMetadata.fileSize / (1024 * 1024)).toFixed(2)} MB
               <span class="dist-bar-count">${count}</span>
             </div>
           `;
-        }).join('')}
+    }).join('')}
       </div>
     `;
   }
@@ -843,7 +843,7 @@ Size: ${(this.currentMetadata.fileSize / (1024 * 1024)).toFixed(2)} MB
       const isWarning = issue.includes('High') || issue.includes('Very large') || issue.includes('Highly');
       const isError = issue.includes('no trainable') || issue.includes('No layers');
       const type = isError ? 'error' : isWarning ? 'warning' : 'info';
-      const icon = type === 'error' 
+      const icon = type === 'error'
         ? '<path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><path d="M12 9v4"/><path d="M12 17h.01"/>'
         : '<circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/>';
 
@@ -880,8 +880,8 @@ Size: ${(this.currentMetadata.fileSize / (1024 * 1024)).toFixed(2)} MB
       paramDistChart.innerHTML = `
         <div class="dist-bar-container">
           ${topLayers.map(layer => {
-            const percentage = (layer.parameters / maxParams) * 100;
-            return `
+        const percentage = (layer.parameters / maxParams) * 100;
+        return `
               <div class="dist-bar-item">
                 <span class="dist-bar-label">${layer.name}</span>
                 <div class="dist-bar-track">
@@ -890,7 +890,7 @@ Size: ${(this.currentMetadata.fileSize / (1024 * 1024)).toFixed(2)} MB
                 <span class="dist-bar-count">${this.formatNumber(layer.parameters)}</span>
               </div>
             `;
-          }).join('')}
+      }).join('')}
         </div>
       `;
     }
@@ -935,7 +935,7 @@ Size: ${(this.currentMetadata.fileSize / (1024 * 1024)).toFixed(2)} MB
     const flops = this.estimateFLOPs(metadata);
     const flopsEl = document.getElementById('flops-estimate');
     const inferenceEl = document.getElementById('inference-time');
-    
+
     if (flopsEl) flopsEl.textContent = this.formatNumber(flops);
     if (inferenceEl) inferenceEl.textContent = `~${Math.max(1, Math.round(flops / 1e9 * 0.5))}ms`;
 
@@ -961,14 +961,14 @@ Size: ${(this.currentMetadata.fileSize / (1024 * 1024)).toFixed(2)} MB
 
   private estimateFLOPs(metadata: ModelMetadata): number {
     let flops = 0;
-    
+
     for (const layer of metadata.layers) {
       const type = layer.type.toLowerCase();
-      
+
       if (type.includes('conv')) {
         // Conv2d: 2 * Cin * Cout * K * K * Hout * Wout
         // Approximate from params: params ≈ Cin * Cout * K * K
-        const outputSize = layer.outputShape ? 
+        const outputSize = layer.outputShape ?
           layer.outputShape.reduce((a, b) => a * b, 1) : 1000;
         flops += layer.parameters * 2 * Math.sqrt(outputSize);
       } else if (type.includes('linear') || type.includes('dense')) {
@@ -985,7 +985,7 @@ Size: ${(this.currentMetadata.fileSize / (1024 * 1024)).toFixed(2)} MB
         flops += layer.parameters * 2;
       }
     }
-    
+
     return Math.round(flops);
   }
 
@@ -1183,41 +1183,41 @@ Size: ${(this.currentMetadata.fileSize / (1024 * 1024)).toFixed(2)} MB
   private updateExtractionView(metadata: ModelMetadata) {
     // Setup extraction export handlers if not done
     this.setupExtractionHandlers();
-    
+
     // Parameter Statistics
     const setEl = (id: string, value: string) => {
       const el = document.getElementById(id);
       if (el) el.textContent = value;
     };
-    
+
     setEl('ext-total-params', this.formatNumber(metadata.totalParameters));
     setEl('ext-trainable-params', this.formatNumber(metadata.trainableParameters));
     setEl('ext-frozen-params', this.formatNumber(metadata.nonTrainableParameters));
     setEl('ext-param-memory', this.formatBytes(metadata.totalParameters * 4));
     setEl('ext-param-memory-fp16', this.formatBytes(metadata.totalParameters * 2));
-    
+
     // Calculate sparsity (estimate)
     const sparsity = metadata.nonTrainableParameters / metadata.totalParameters * 100;
     setEl('ext-param-density', `${sparsity.toFixed(1)}%`);
-    
+
     // Per-layer parameter breakdown
     this.renderParamBreakdown(metadata);
-    
+
     // Training Configuration (inferred or extracted)
     this.renderTrainingInfo(metadata);
-    
+
     // Preprocessing Pipeline (inferred)
     this.renderPreprocessingInfo(metadata);
-    
+
     // Dataset Inference
     this.renderDatasetInference(metadata);
-    
+
     // Architecture Detection
     this.renderArchitectureInfo(metadata);
-    
+
     // Quantization Info
     this.renderQuantizationInfo(metadata);
-    
+
     // Raw data JSON
     this.renderRawData(metadata);
   }
@@ -1257,7 +1257,7 @@ Size: ${(this.currentMetadata.fileSize / (1024 * 1024)).toFixed(2)} MB
     if (!container) return;
 
     const maxParams = Math.max(...metadata.layers.map(l => l.parameters));
-    
+
     container.innerHTML = metadata.layers.map(layer => `
       <div class="param-row">
         <span class="param-row-name">${layer.name}</span>
@@ -1278,7 +1278,7 @@ Size: ${(this.currentMetadata.fileSize / (1024 * 1024)).toFixed(2)} MB
 
     // Use extracted training info or infer from architecture
     const training = metadata.training || this.inferTrainingConfig(metadata);
-    
+
     if (training.optimizer) {
       setEl('opt-type', training.optimizer.type);
       setEl('opt-lr', training.optimizer.learningRate?.toExponential(2) || '--');
@@ -1308,7 +1308,7 @@ Size: ${(this.currentMetadata.fileSize / (1024 * 1024)).toFixed(2)} MB
     // Infer common training configs based on architecture
     const hasResidual = metadata.layers.some(l => l.name.includes('residual') || l.name.includes('skip'));
     const hasBatchNorm = metadata.layers.some(l => l.type.toLowerCase().includes('batchnorm'));
-    
+
     return {
       optimizer: {
         type: hasBatchNorm ? 'SGD with Momentum' : 'Adam',
@@ -1368,9 +1368,9 @@ Size: ${(this.currentMetadata.fileSize / (1024 * 1024)).toFixed(2)} MB
 
   private inferPreprocessing(metadata: ModelMetadata) {
     // Infer based on common patterns
-    const isImageNet = metadata.inputShape && 
+    const isImageNet = metadata.inputShape &&
       (metadata.inputShape[2] === 224 || metadata.inputShape[3] === 224);
-    
+
     return {
       normalization: {
         mean: isImageNet ? [0.485, 0.456, 0.406] : [0.5, 0.5, 0.5],
@@ -1418,7 +1418,7 @@ Size: ${(this.currentMetadata.fileSize / (1024 * 1024)).toFixed(2)} MB
     // Class labels
     const labelsContainer = document.getElementById('class-labels');
     if (labelsContainer && inference.classLabels && inference.classLabels.length > 0) {
-      labelsContainer.innerHTML = inference.classLabels.slice(0, 50).map(label => 
+      labelsContainer.innerHTML = inference.classLabels.slice(0, 50).map(label =>
         `<span class="class-label">${label}</span>`
       ).join('');
       if (inference.classLabels.length > 50) {
@@ -1431,11 +1431,11 @@ Size: ${(this.currentMetadata.fileSize / (1024 * 1024)).toFixed(2)} MB
     const outputSize = metadata.outputShape ? metadata.outputShape[metadata.outputShape.length - 1] : 0;
     const inputChannels = metadata.inputShape ? metadata.inputShape[1] : 3;
     const inputSize = metadata.inputShape ? metadata.inputShape[2] : 0;
-    
+
     let possibleDatasets: string[] = [];
     let taskType = 'Classification';
     let inputType = 'Unknown';
-    
+
     // Infer based on output and input shapes
     if (outputSize === 1000 && inputSize === 224) {
       possibleDatasets = ['ImageNet-1K', 'ImageNet-21K (subset)'];
@@ -1460,7 +1460,7 @@ Size: ${(this.currentMetadata.fileSize / (1024 * 1024)).toFixed(2)} MB
     // Generate common ImageNet class labels if 1000 classes
     let classLabels: string[] = [];
     if (outputSize === 1000) {
-      classLabels = ['tench', 'goldfish', 'great white shark', 'tiger shark', 'hammerhead', 
+      classLabels = ['tench', 'goldfish', 'great white shark', 'tiger shark', 'hammerhead',
         'electric ray', 'stingray', 'cock', 'hen', 'ostrich', 'brambling', 'goldfinch',
         'house finch', 'junco', 'indigo bunting', 'robin', 'bulbul', 'jay', 'magpie', 'chickadee'];
     }
@@ -1488,7 +1488,7 @@ Size: ${(this.currentMetadata.fileSize / (1024 * 1024)).toFixed(2)} MB
     setEl('arch-backbone', arch.backbone || '--');
     setEl('arch-head', arch.head || '--');
     setEl('arch-depth', metadata.totalLayers.toString());
-    
+
     // Estimate width based on max layer params
     const maxLayerParams = Math.max(...metadata.layers.map(l => l.parameters));
     setEl('arch-width', this.formatNumber(maxLayerParams));
@@ -1497,7 +1497,7 @@ Size: ${(this.currentMetadata.fileSize / (1024 * 1024)).toFixed(2)} MB
   private detectArchitecture(metadata: ModelMetadata) {
     const layerNames = metadata.layers.map(l => l.name.toLowerCase()).join(' ');
     const layerTypes = metadata.layers.map(l => l.type.toLowerCase()).join(' ');
-    
+
     let type = 'Custom CNN';
     let variant = '';
     let backbone = '';
@@ -1547,7 +1547,7 @@ Size: ${(this.currentMetadata.fileSize / (1024 * 1024)).toFixed(2)} MB
     };
 
     const quant = metadata.quantization || { enabled: false };
-    
+
     // Update status indicator
     const statusEl = document.getElementById('quant-status');
     if (statusEl) {
@@ -1645,7 +1645,7 @@ Size: ${(this.currentMetadata.fileSize / (1024 * 1024)).toFixed(2)} MB
 
   private copySectionData(section: string) {
     if (!this.currentMetadata) return;
-    
+
     let data: any = {};
     switch (section) {
       case 'parameters':
@@ -1657,7 +1657,7 @@ Size: ${(this.currentMetadata.fileSize / (1024 * 1024)).toFixed(2)} MB
         };
         break;
     }
-    
+
     navigator.clipboard.writeText(JSON.stringify(data, null, 2));
     this.showToast('success', 'Section data copied');
   }
@@ -1708,10 +1708,10 @@ Size: ${(this.currentMetadata.fileSize / (1024 * 1024)).toFixed(2)} MB
     // Animation setting
     document.getElementById('setting-animation')?.addEventListener('change', (e) => {
       this.settings.animation = (e.target as HTMLSelectElement).value;
-      document.documentElement.style.setProperty('--transition-normal', 
+      document.documentElement.style.setProperty('--transition-normal',
         this.settings.animation === 'fast' ? '150ms ease' :
-        this.settings.animation === 'slow' ? '400ms ease' :
-        this.settings.animation === 'none' ? '0ms' : '250ms ease'
+          this.settings.animation === 'slow' ? '400ms ease' :
+            this.settings.animation === 'none' ? '0ms' : '250ms ease'
       );
       this.saveSettings();
     });
@@ -1889,10 +1889,10 @@ Size: ${(this.currentMetadata.fileSize / (1024 * 1024)).toFixed(2)} MB
     }
 
     // Apply animation speed
-    document.documentElement.style.setProperty('--transition-normal', 
+    document.documentElement.style.setProperty('--transition-normal',
       this.settings.animation === 'fast' ? '150ms ease' :
-      this.settings.animation === 'slow' ? '400ms ease' :
-      this.settings.animation === 'none' ? '0ms' : '250ms ease'
+        this.settings.animation === 'slow' ? '400ms ease' :
+          this.settings.animation === 'none' ? '0ms' : '250ms ease'
     );
 
     // Auto-load sample if enabled
@@ -1903,10 +1903,10 @@ Size: ${(this.currentMetadata.fileSize / (1024 * 1024)).toFixed(2)} MB
 
   private updateAboutStats() {
     const stats = this.getUsageStats();
-    
+
     const modelsEl = document.getElementById('total-models-analyzed');
     if (modelsEl) modelsEl.textContent = stats.modelsAnalyzed.toString();
-    
+
     const paramsEl = document.getElementById('total-params-processed');
     if (paramsEl) paramsEl.textContent = this.formatNumber(stats.paramsProcessed);
   }
