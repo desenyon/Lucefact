@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="dark">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,34 +8,42 @@
     <link rel="stylesheet" href="/styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap"
+        rel="stylesheet">
 </head>
+
 <body>
     <!-- SVG Gradients for Molten Ash Effect -->
     <svg width="0" height="0" style="position: absolute;">
         <defs>
             <linearGradient id="moltenGradient" x1="0%" y1="0%" x2="100%" y2="100%">
                 <stop offset="0%" style="stop-color:#71717a">
-                    <animate attributeName="stop-color" values="#71717a;#9ca3af;#d4d4d8;#a1a1aa;#71717a" dur="4s" repeatCount="indefinite"/>
+                    <animate attributeName="stop-color" values="#71717a;#9ca3af;#d4d4d8;#a1a1aa;#71717a" dur="4s"
+                        repeatCount="indefinite" />
                 </stop>
                 <stop offset="25%" style="stop-color:#9ca3af">
-                    <animate attributeName="stop-color" values="#9ca3af;#d4d4d8;#a1a1aa;#71717a;#9ca3af" dur="4s" repeatCount="indefinite"/>
+                    <animate attributeName="stop-color" values="#9ca3af;#d4d4d8;#a1a1aa;#71717a;#9ca3af" dur="4s"
+                        repeatCount="indefinite" />
                 </stop>
                 <stop offset="50%" style="stop-color:#d4d4d8">
-                    <animate attributeName="stop-color" values="#d4d4d8;#a1a1aa;#71717a;#9ca3af;#d4d4d8" dur="4s" repeatCount="indefinite"/>
+                    <animate attributeName="stop-color" values="#d4d4d8;#a1a1aa;#71717a;#9ca3af;#d4d4d8" dur="4s"
+                        repeatCount="indefinite" />
                 </stop>
                 <stop offset="75%" style="stop-color:#a1a1aa">
-                    <animate attributeName="stop-color" values="#a1a1aa;#71717a;#9ca3af;#d4d4d8;#a1a1aa" dur="4s" repeatCount="indefinite"/>
+                    <animate attributeName="stop-color" values="#a1a1aa;#71717a;#9ca3af;#d4d4d8;#a1a1aa" dur="4s"
+                        repeatCount="indefinite" />
                 </stop>
                 <stop offset="100%" style="stop-color:#71717a">
-                    <animate attributeName="stop-color" values="#71717a;#9ca3af;#d4d4d8;#a1a1aa;#71717a" dur="4s" repeatCount="indefinite"/>
+                    <animate attributeName="stop-color" values="#71717a;#9ca3af;#d4d4d8;#a1a1aa;#71717a" dur="4s"
+                        repeatCount="indefinite" />
                 </stop>
             </linearGradient>
             <filter id="moltenGlow" x="-50%" y="-50%" width="200%" height="200%">
-                <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+                <feGaussianBlur stdDeviation="3" result="coloredBlur" />
                 <feMerge>
-                    <feMergeNode in="coloredBlur"/>
-                    <feMergeNode in="SourceGraphic"/>
+                    <feMergeNode in="coloredBlur" />
+                    <feMergeNode in="SourceGraphic" />
                 </feMerge>
             </filter>
         </defs>
@@ -42,198 +51,153 @@
 
     <!-- App Container -->
     <div class="app-container">
-        <!-- Sidebar Navigation -->
-        <aside class="sidebar">
-            <div class="sidebar-header">
+        <!-- Top Navigation (Glassy) -->
+        <header class="top-nav">
+            <div class="nav-logo">
+                <svg viewBox="0 0 24 24" fill="none" class="logo-icon">
+                    <path d="M12 2L2 7l10 5 10-5-10-5z" fill="var(--accent-green)" />
+                    <path d="M2 17l10 5 10-5" stroke="var(--accent-green)" stroke-width="2" />
+                    <path d="M2 12l10 5 10-5" stroke="var(--accent-green)" stroke-width="2" />
+                </svg>
                 <span class="logo-text">Lucefact</span>
-                <span class="version-tag">v2.67</span>
             </div>
 
-            <nav class="sidebar-nav">
-                <div class="nav-section">
-                    <span class="nav-section-title">Workspace</span>
-                    <button class="nav-item active" data-view="dashboard">
-                        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <rect x="3" y="3" width="7" height="7" rx="1"/>
-                            <rect x="14" y="3" width="7" height="7" rx="1"/>
-                            <rect x="3" y="14" width="7" height="7" rx="1"/>
-                            <rect x="14" y="14" width="7" height="7" rx="1"/>
-                        </svg>
-                        <span>Dashboard</span>
-                    </button>
-                    <button class="nav-item" data-view="visualizer">
-                        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <circle cx="12" cy="12" r="3"/>
-                            <path d="M12 2v4M12 18v4M2 12h4M18 12h4"/>
-                            <path d="M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>
-                        </svg>
-                        <span>Architecture</span>
-                    </button>
-                    <button class="nav-item" data-view="analytics">
-                        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M3 3v18h18"/>
-                            <path d="M7 16l4-4 4 4 5-5"/>
-                        </svg>
-                        <span>Analytics</span>
-                    </button>
-                    <button class="nav-item" data-view="layers">
-                        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
-                            <path d="M2 17l10 5 10-5"/>
-                            <path d="M2 12l10 5 10-5"/>
-                        </svg>
-                        <span>Layer Explorer</span>
-                    </button>
-                    <button class="nav-item" data-view="extraction">
-                        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
-                            <path d="M7 10l5 5 5-5"/>
-                            <path d="M12 15V3"/>
-                        </svg>
-                        <span>Model Data</span>
-                    </button>
-                    <button class="nav-item" data-view="settings">
-                        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <circle cx="12" cy="12" r="3"/>
-                            <path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"/>
-                        </svg>
-                        <span>Settings</span>
-                    </button>
-                </div>
-
-                <div class="nav-section">
-                    <span class="nav-section-title">History</span>
-                    <div class="history-list" id="history-list">
-                        <div class="history-empty">No recent models</div>
-                    </div>
-                </div>
+            <nav class="center-nav">
+                <button class="nav-link active" data-view="dashboard">Dashboard</button>
+                <button class="nav-link" data-view="visualizer">Architecture</button>
+                <button class="nav-link" data-view="analytics">Analytics</button>
+                <button class="nav-link" data-view="layers">Layers</button>
+                <button class="nav-link" data-view="extraction">Data Extraction</button>
             </nav>
 
-            <div class="sidebar-footer">
-                <button class="upload-trigger" id="upload-btn">
-                    <svg class="upload-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
-                        <path d="M17 8l-5-5-5 5"/>
-                        <path d="M12 3v12"/>
-                    </svg>
-                    <span>Upload Model</span>
-                    <kbd class="shortcut">⌘U</kbd>
-                </button>
-                <input type="file" id="file-input" accept=".h5,.pt,.pth,.onnx,.pkl,.pickle,.pb,.tflite,.safetensors" hidden>
-                
-                <div class="sidebar-actions">
-                    <button class="action-btn" id="theme-toggle" title="Toggle Theme">
-                        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <circle cx="12" cy="12" r="5"/>
-                            <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
-                        </svg>
-                        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>
-                        </svg>
-                    </button>
-                    <button class="action-btn" id="settings-btn" title="Settings">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <circle cx="12" cy="12" r="3"/>
-                            <path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"/>
-                        </svg>
-                    </button>
-                    <button class="action-btn" id="help-btn" title="Keyboard Shortcuts">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <circle cx="12" cy="12" r="10"/>
-                            <path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/>
-                            <path d="M12 17h.01"/>
-                        </svg>
-                    </button>
-                </div>
+            <div class="nav-actions">
+                <button class="create-flow-btn" id="upload-btn">START ANALYSIS</button>
+                <input type="file" id="file-input" accept=".h5,.pt,.pth,.onnx,.pkl,.pickle,.pb,.tflite,.safetensors"
+                    hidden>
             </div>
-        </aside>
+
+            <!-- Hidden elements to preserve JS bindings -->
+            <div style="display: none;">
+                <input type="text" id="global-search">
+                <div id="model-status">
+                    <div class="status-indicator"></div><span class="status-text"></span>
+                </div>
+                <div id="current-view-name"></div>
+                <button id="theme-toggle"></button>
+            </div>
+        </header>
 
         <!-- Main Content Area -->
         <main class="main-content">
-            <!-- Top Bar -->
-            <header class="top-bar">
-                <div class="breadcrumb">
-                    <span class="breadcrumb-item">Workspace</span>
-                    <svg class="breadcrumb-sep" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M9 18l6-6-6-6"/>
-                    </svg>
-                    <span class="breadcrumb-item active" id="current-view-name">Dashboard</span>
-                </div>
-                
-                <div class="top-bar-actions">
-                    <div class="search-global">
-                        <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <circle cx="11" cy="11" r="8"/>
-                            <path d="M21 21l-4.35-4.35"/>
-                        </svg>
-                        <input type="text" id="global-search" placeholder="Search layers, types..." class="search-input">
-                        <kbd class="search-shortcut">⌘K</kbd>
-                    </div>
-                    
-                    <div class="model-status" id="model-status">
-                        <div class="status-indicator offline"></div>
-                        <span class="status-text">No Model</span>
-                    </div>
-                </div>
-            </header>
 
             <!-- Dashboard View -->
             <div class="view-container active" id="view-dashboard">
-                <!-- Welcome State -->
+                <!-- Welcome State Hero -->
                 <div class="welcome-state" id="welcome-state">
-                    <div class="welcome-content">
-                        <div class="welcome-icon">
-                            <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.5">
-                                <rect x="8" y="8" width="48" height="48" rx="8"/>
-                                <circle cx="32" cy="32" r="12"/>
-                                <path d="M32 14v8M32 42v8M14 32h8M42 32h8"/>
-                                <path d="M20 20l5.66 5.66M38.34 38.34L44 44M20 44l5.66-5.66M38.34 25.66L44 20"/>
-                            </svg>
+                    <div class="hero-content">
+                        <h1 class="hero-title">
+                            Streamline Your Architecture: <span class="text-glow">Design,</span><br>
+                            <span class="text-glow">Analyze,</span> and Optimize with <span
+                                class="text-accent">Lucefact!</span>
+                        </h1>
+                        <p class="hero-subtitle">
+                            This comprehensive tool empowers you to optimize your neural network models, boosting<br>
+                            performance and efficiency in every step of your projects.
+                        </p>
+
+                        <div class="hero-action-pill" id="upload-zone">
+                            <div class="pill-text">
+                                <span class="pill-placeholder">Drag & drop your model here</span>
+                            </div>
+                            <button class="pill-btn primary-gradient">BROWSE FILES</button>
                         </div>
-                        <h1 class="welcome-title">Neural Architecture Intelligence</h1>
-                        <p class="welcome-subtitle">Drop a model file or click below to start analyzing your neural network architecture</p>
-                        
-                        <div class="upload-zone" id="upload-zone">
-                            <div class="upload-zone-content">
-                                <svg class="upload-zone-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                                    <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
-                                    <path d="M17 8l-5-5-5 5"/>
-                                    <path d="M12 3v12"/>
+
+                        <div class="supported-formats horizontal">
+                            <span class="format-tag">.h5</span>
+                            <span class="format-tag">.pt</span>
+                            <span class="format-tag">.pth</span>
+                            <span class="format-tag">.onnx</span>
+                            <span class="format-tag">.pkl</span>
+                            <span class="format-tag">.safetensors</span>
+                        </div>
+                    </div>
+
+                    <!-- FlowGuide Cards layout -->
+                    <div class="hero-cards-container">
+                        <div class="hero-card stats-card-hero">
+                            <div class="card-icon-top">
+                                <svg viewBox="0 0 24 24" fill="var(--accent-green)" class="hero-flare">
+                                    <path d="M12 2L2 7l10 5 10-5-10-5z" />
                                 </svg>
-                                <span class="upload-zone-text">Drag & drop your model here</span>
-                                <span class="upload-zone-hint">or click to browse</span>
+                            </div>
+                            <h3 class="hero-card-title">DEEP INSIGHTS WITH<br>NEURAL ARCHITECTURE ANALYSIS</h3>
+                            <div class="hero-accent-line"></div>
+
+                            <div class="hero-stats-row">
+                                <div class="hero-stat">
+                                    <div class="stat-big">58K</div>
+                                    <div class="stat-small">Params analyzed</div>
+                                </div>
+                                <div class="hero-stat">
+                                    <div class="stat-big">32K</div>
+                                    <div class="stat-small">Layers mapped</div>
+                                </div>
+                            </div>
+
+                            <div class="hero-card-actions">
+                                <button class="hero-btn-outline" id="view-docs">DOCUMENTATION</button>
+                                <button class="hero-btn-outline" id="load-sample">LOAD SAMPLE</button>
                             </div>
                         </div>
-                        
-                        <div class="supported-formats">
-                            <span class="format-label">Supported:</span>
-                            <div class="format-tags">
-                                <span class="format-tag">.h5</span>
-                                <span class="format-tag">.pt</span>
-                                <span class="format-tag">.pth</span>
-                                <span class="format-tag">.onnx</span>
-                                <span class="format-tag">.pkl</span>
-                                <span class="format-tag">.safetensors</span>
+
+                        <div class="hero-card viz-card-hero">
+                            <div class="viz-mockup">
+                                <h4>Interactive functions interacting with the model</h4>
+                                <p>With flexible functions and capabilities, you can seamlessly explore layers, analyze
+                                    parameters, and track dependencies. Using an intuitive visualizer, users can
+                                    understand deep complex architectures tailored to their specifics.</p>
+
+                                <div class="mockup-diagram-container">
+                                    <div class="mockup-diagram">
+                                        <div class="mock-node n1">
+                                            <div class="node-icon"><svg viewBox="0 0 24 24" fill="none"
+                                                    stroke="currentColor" stroke-width="2">
+                                                    <rect x="3" y="3" width="18" height="18" rx="2" />
+                                                </svg></div>
+                                            <span>Input Layer</span>
+                                        </div>
+                                        <div class="mock-line l1"></div>
+                                        <div class="mock-node n2 active">
+                                            <div class="node-icon play-icon"><svg viewBox="0 0 24 24"
+                                                    fill="currentColor">
+                                                    <path d="M8 5v14l11-7z" />
+                                                </svg></div>
+                                        </div>
+                                        <div class="mock-node n3">
+                                            <div class="node-icon pink"><svg viewBox="0 0 24 24" fill="none"
+                                                    stroke="currentColor" stroke-width="2">
+                                                    <path d="M4 4h16v16H4zM4 12h16M12 4v16" />
+                                                </svg></div>
+                                            <span>Start Feature<br>Extraction</span>
+                                        </div>
+                                        <div class="mock-line l2"></div>
+                                        <div class="mock-node n4">
+                                            <div class="node-icon purple-x"><svg viewBox="0 0 24 24" fill="none"
+                                                    stroke="currentColor" stroke-width="2">
+                                                    <path d="M18 6L6 18M6 6l12 12" />
+                                                </svg></div>
+                                            <span>Proper Architecture?<br><small>Branch-1</small></span>
+                                        </div>
+                                        <div class="mock-line l3"></div>
+                                        <div class="mock-node n5 highlight">
+                                            <div class="node-icon green"><svg viewBox="0 0 24 24" fill="currentColor">
+                                                    <path d="M12 2L2 7l10 5 10-5-10-5z" />
+                                                </svg></div>
+                                            <span>Submit Root<br>Project App</span>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                        
-                        <div class="quick-actions">
-                            <button class="quick-action" id="load-sample">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
-                                    <path d="M14 2v6h6"/>
-                                    <path d="M12 18v-6"/>
-                                    <path d="M9 15l3-3 3 3"/>
-                                </svg>
-                                <span>Load Sample Model</span>
-                            </button>
-                            <button class="quick-action" id="view-docs">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/>
-                                    <path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/>
-                                </svg>
-                                <span>Documentation</span>
-                            </button>
                         </div>
                     </div>
                 </div>
@@ -247,7 +211,7 @@
                                 <h3 class="card-title">Model Health Score</h3>
                                 <div class="card-badge" id="health-trend">
                                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <path d="M23 6l-9.5 9.5-5-5L1 18"/>
+                                        <path d="M23 6l-9.5 9.5-5-5L1 18" />
                                     </svg>
                                     <span>Analyzing</span>
                                 </div>
@@ -255,8 +219,8 @@
                             <div class="health-score-container">
                                 <div class="health-score-ring">
                                     <svg viewBox="0 0 120 120">
-                                        <circle cx="60" cy="60" r="54" class="score-bg"/>
-                                        <circle cx="60" cy="60" r="54" class="score-fill" id="health-ring"/>
+                                        <circle cx="60" cy="60" r="54" class="score-bg" />
+                                        <circle cx="60" cy="60" r="54" class="score-fill" id="health-ring" />
                                     </svg>
                                     <div class="score-value" id="health-score">--</div>
                                 </div>
@@ -295,9 +259,9 @@
                                 <div class="stat-box">
                                     <div class="stat-icon">
                                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
-                                            <path d="M2 17l10 5 10-5"/>
-                                            <path d="M2 12l10 5 10-5"/>
+                                            <path d="M12 2L2 7l10 5 10-5-10-5z" />
+                                            <path d="M2 17l10 5 10-5" />
+                                            <path d="M2 12l10 5 10-5" />
                                         </svg>
                                     </div>
                                     <div class="stat-info">
@@ -308,9 +272,9 @@
                                 <div class="stat-box">
                                     <div class="stat-icon">
                                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                            <circle cx="12" cy="12" r="10"/>
-                                            <path d="M8 12h8"/>
-                                            <path d="M12 8v8"/>
+                                            <circle cx="12" cy="12" r="10" />
+                                            <path d="M8 12h8" />
+                                            <path d="M12 8v8" />
                                         </svg>
                                     </div>
                                     <div class="stat-info">
@@ -321,9 +285,9 @@
                                 <div class="stat-box">
                                     <div class="stat-icon">
                                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                            <rect x="2" y="2" width="20" height="20" rx="2"/>
-                                            <path d="M7 10h10"/>
-                                            <path d="M7 14h6"/>
+                                            <rect x="2" y="2" width="20" height="20" rx="2" />
+                                            <path d="M7 10h10" />
+                                            <path d="M7 14h6" />
                                         </svg>
                                     </div>
                                     <div class="stat-info">
@@ -334,7 +298,7 @@
                                 <div class="stat-box">
                                     <div class="stat-icon">
                                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                            <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+                                            <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
                                         </svg>
                                     </div>
                                     <div class="stat-info">
@@ -351,8 +315,8 @@
                                 <h3 class="card-title">Model Information</h3>
                                 <button class="card-action" id="copy-info" title="Copy to clipboard">
                                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <rect x="9" y="9" width="13" height="13" rx="2"/>
-                                        <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/>
+                                        <rect x="9" y="9" width="13" height="13" rx="2" />
+                                        <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1" />
                                     </svg>
                                 </button>
                             </div>
@@ -413,36 +377,36 @@
                             <div class="export-actions">
                                 <button class="export-btn" id="export-png">
                                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <rect x="3" y="3" width="18" height="18" rx="2"/>
-                                        <circle cx="8.5" cy="8.5" r="1.5"/>
-                                        <path d="M21 15l-5-5L5 21"/>
+                                        <rect x="3" y="3" width="18" height="18" rx="2" />
+                                        <circle cx="8.5" cy="8.5" r="1.5" />
+                                        <path d="M21 15l-5-5L5 21" />
                                     </svg>
                                     <span>Export PNG</span>
                                 </button>
                                 <button class="export-btn" id="export-json">
                                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
-                                        <path d="M14 2v6h6"/>
-                                        <path d="M10 9H8"/>
-                                        <path d="M16 13H8"/>
-                                        <path d="M16 17H8"/>
+                                        <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" />
+                                        <path d="M14 2v6h6" />
+                                        <path d="M10 9H8" />
+                                        <path d="M16 13H8" />
+                                        <path d="M16 17H8" />
                                     </svg>
                                     <span>Export JSON</span>
                                 </button>
                                 <button class="export-btn" id="export-svg">
                                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
-                                        <path d="M14 2v6h6"/>
+                                        <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" />
+                                        <path d="M14 2v6h6" />
                                     </svg>
                                     <span>Export SVG</span>
                                 </button>
                                 <button class="export-btn" id="share-link">
                                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <circle cx="18" cy="5" r="3"/>
-                                        <circle cx="6" cy="12" r="3"/>
-                                        <circle cx="18" cy="19" r="3"/>
-                                        <path d="M8.59 13.51l6.83 3.98"/>
-                                        <path d="M15.41 6.51l-6.82 3.98"/>
+                                        <circle cx="18" cy="5" r="3" />
+                                        <circle cx="6" cy="12" r="3" />
+                                        <circle cx="18" cy="19" r="3" />
+                                        <path d="M8.59 13.51l6.83 3.98" />
+                                        <path d="M15.41 6.51l-6.82 3.98" />
                                     </svg>
                                     <span>Copy Link</span>
                                 </button>
@@ -461,61 +425,61 @@
                             <div class="toolbar-buttons">
                                 <button class="toolbar-btn active" id="layout-vertical" title="Vertical Flow">
                                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <rect x="4" y="4" width="16" height="4" rx="1"/>
-                                        <rect x="4" y="10" width="16" height="4" rx="1"/>
-                                        <rect x="4" y="16" width="16" height="4" rx="1"/>
+                                        <rect x="4" y="4" width="16" height="4" rx="1" />
+                                        <rect x="4" y="10" width="16" height="4" rx="1" />
+                                        <rect x="4" y="16" width="16" height="4" rx="1" />
                                     </svg>
                                 </button>
                                 <button class="toolbar-btn" id="layout-horizontal" title="Horizontal Flow">
                                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <rect x="4" y="4" width="4" height="16" rx="1"/>
-                                        <rect x="10" y="4" width="4" height="16" rx="1"/>
-                                        <rect x="16" y="4" width="4" height="16" rx="1"/>
+                                        <rect x="4" y="4" width="4" height="16" rx="1" />
+                                        <rect x="10" y="4" width="4" height="16" rx="1" />
+                                        <rect x="16" y="4" width="4" height="16" rx="1" />
                                     </svg>
                                 </button>
                                 <button class="toolbar-btn" id="layout-radial" title="Radial">
                                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <circle cx="12" cy="12" r="8"/>
-                                        <circle cx="12" cy="12" r="3"/>
+                                        <circle cx="12" cy="12" r="8" />
+                                        <circle cx="12" cy="12" r="3" />
                                     </svg>
                                 </button>
                                 <button class="toolbar-btn" id="layout-force" title="Force-Directed">
                                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <circle cx="5" cy="5" r="2"/>
-                                        <circle cx="19" cy="5" r="2"/>
-                                        <circle cx="12" cy="12" r="2"/>
-                                        <circle cx="5" cy="19" r="2"/>
-                                        <circle cx="19" cy="19" r="2"/>
-                                        <path d="M7 5h10M5 7v10M19 7v10M7 19h10"/>
+                                        <circle cx="5" cy="5" r="2" />
+                                        <circle cx="19" cy="5" r="2" />
+                                        <circle cx="12" cy="12" r="2" />
+                                        <circle cx="5" cy="19" r="2" />
+                                        <circle cx="19" cy="19" r="2" />
+                                        <path d="M7 5h10M5 7v10M19 7v10M7 19h10" />
                                     </svg>
                                 </button>
                             </div>
                         </div>
-                        
+
                         <div class="toolbar-group">
                             <span class="toolbar-label">Zoom</span>
                             <div class="toolbar-buttons">
                                 <button class="toolbar-btn" id="zoom-out" title="Zoom Out">
                                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <circle cx="11" cy="11" r="8"/>
-                                        <path d="M21 21l-4.35-4.35"/>
-                                        <path d="M8 11h6"/>
+                                        <circle cx="11" cy="11" r="8" />
+                                        <path d="M21 21l-4.35-4.35" />
+                                        <path d="M8 11h6" />
                                     </svg>
                                 </button>
                                 <span class="zoom-level" id="zoom-level">100%</span>
                                 <button class="toolbar-btn" id="zoom-in" title="Zoom In">
                                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <circle cx="11" cy="11" r="8"/>
-                                        <path d="M21 21l-4.35-4.35"/>
-                                        <path d="M11 8v6M8 11h6"/>
+                                        <circle cx="11" cy="11" r="8" />
+                                        <path d="M21 21l-4.35-4.35" />
+                                        <path d="M11 8v6M8 11h6" />
                                     </svg>
                                 </button>
                                 <button class="toolbar-btn" id="zoom-fit" title="Fit to View">
                                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <path d="M8 3H5a2 2 0 00-2 2v3"/>
-                                        <path d="M21 8V5a2 2 0 00-2-2h-3"/>
-                                        <path d="M3 16v3a2 2 0 002 2h3"/>
-                                        <path d="M16 21h3a2 2 0 002-2v-3"/>
+                                        <path d="M8 3H5a2 2 0 00-2 2v3" />
+                                        <path d="M21 8V5a2 2 0 00-2-2h-3" />
+                                        <path d="M3 16v3a2 2 0 002 2h3" />
+                                        <path d="M16 21h3a2 2 0 002-2v-3" />
                                     </svg>
                                 </button>
                             </div>
@@ -526,21 +490,21 @@
                             <div class="toolbar-buttons">
                                 <button class="toolbar-btn" id="toggle-minimap" title="Toggle Minimap">
                                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <rect x="3" y="3" width="18" height="18" rx="2"/>
-                                        <rect x="13" y="13" width="6" height="6" rx="1"/>
+                                        <rect x="3" y="3" width="18" height="18" rx="2" />
+                                        <rect x="13" y="13" width="6" height="6" rx="1" />
                                     </svg>
                                 </button>
                                 <button class="toolbar-btn" id="toggle-labels" title="Toggle Labels">
                                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <path d="M4 7V4h16v3"/>
-                                        <path d="M9 20h6"/>
-                                        <path d="M12 4v16"/>
+                                        <path d="M4 7V4h16v3" />
+                                        <path d="M9 20h6" />
+                                        <path d="M12 4v16" />
                                     </svg>
                                 </button>
                                 <button class="toolbar-btn" id="toggle-params" title="Toggle Parameters">
                                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <path d="M3 3v18h18"/>
-                                        <path d="M7 16l4-4 4 4 5-5"/>
+                                        <path d="M3 3v18h18" />
+                                        <path d="M7 16l4-4 4 4 5-5" />
                                     </svg>
                                 </button>
                             </div>
@@ -557,13 +521,13 @@
                         <div class="viz-canvas" id="viz-canvas">
                             <div class="viz-placeholder">
                                 <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.5">
-                                    <circle cx="32" cy="32" r="24"/>
-                                    <path d="M32 20v8M32 36v8M20 32h8M36 32h8"/>
+                                    <circle cx="32" cy="32" r="24" />
+                                    <path d="M32 20v8M32 36v8M20 32h8M36 32h8" />
                                 </svg>
                                 <p>Load a model to visualize architecture</p>
                             </div>
                         </div>
-                        
+
                         <!-- Minimap -->
                         <div class="minimap" id="minimap" style="display: none;">
                             <div class="minimap-content" id="minimap-content"></div>
@@ -577,7 +541,7 @@
                             <h3 class="detail-title" id="detail-layer-name">Layer Details</h3>
                             <button class="detail-close" id="close-detail">
                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <path d="M18 6L6 18M6 6l12 12"/>
+                                    <path d="M18 6L6 18M6 6l12 12" />
                                 </svg>
                             </button>
                         </div>
@@ -593,7 +557,8 @@
                 <div class="analytics-container">
                     <div class="analytics-header">
                         <h2>Deep Analytics</h2>
-                        <p class="analytics-subtitle">Comprehensive analysis of your model's architecture and performance characteristics</p>
+                        <p class="analytics-subtitle">Comprehensive analysis of your model's architecture and
+                            performance characteristics</p>
                     </div>
 
                     <div class="analytics-grid">
@@ -651,8 +616,8 @@
                                 <div class="cost-metric">
                                     <div class="cost-icon">
                                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                            <rect x="4" y="4" width="16" height="16" rx="2"/>
-                                            <path d="M9 9h6v6H9z"/>
+                                            <rect x="4" y="4" width="16" height="16" rx="2" />
+                                            <path d="M9 9h6v6H9z" />
                                         </svg>
                                     </div>
                                     <div class="cost-info">
@@ -663,8 +628,8 @@
                                 <div class="cost-metric">
                                     <div class="cost-icon">
                                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                            <circle cx="12" cy="12" r="10"/>
-                                            <path d="M12 6v6l4 2"/>
+                                            <circle cx="12" cy="12" r="10" />
+                                            <path d="M12 6v6l4 2" />
                                         </svg>
                                     </div>
                                     <div class="cost-info">
@@ -733,20 +698,21 @@
                 <div class="extraction-container">
                     <div class="extraction-header">
                         <h2>Model Data Extraction</h2>
-                        <p class="extraction-subtitle">Deep extraction of model parameters, training artifacts, and inferred metadata</p>
+                        <p class="extraction-subtitle">Deep extraction of model parameters, training artifacts, and
+                            inferred metadata</p>
                         <div class="extraction-actions">
                             <button class="extraction-btn" id="export-all-data">
                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
-                                    <path d="M7 10l5 5 5-5"/>
-                                    <path d="M12 15V3"/>
+                                    <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4" />
+                                    <path d="M7 10l5 5 5-5" />
+                                    <path d="M12 15V3" />
                                 </svg>
                                 Export All Data
                             </button>
                             <button class="extraction-btn secondary" id="copy-all-data">
                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <rect x="9" y="9" width="13" height="13" rx="2"/>
-                                    <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/>
+                                    <rect x="9" y="9" width="13" height="13" rx="2" />
+                                    <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1" />
                                 </svg>
                                 Copy to Clipboard
                             </button>
@@ -759,15 +725,16 @@
                             <div class="card-header">
                                 <h3 class="card-title">
                                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <circle cx="12" cy="12" r="3"/>
-                                        <path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4"/>
+                                        <circle cx="12" cy="12" r="3" />
+                                        <path
+                                            d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4" />
                                     </svg>
                                     Parameter Statistics
                                 </h3>
                                 <button class="card-action copy-section" data-section="parameters">
                                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <rect x="9" y="9" width="13" height="13" rx="2"/>
-                                        <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/>
+                                        <rect x="9" y="9" width="13" height="13" rx="2" />
+                                        <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1" />
                                     </svg>
                                 </button>
                             </div>
@@ -810,7 +777,7 @@
                             <div class="card-header">
                                 <h3 class="card-title">
                                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+                                        <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
                                     </svg>
                                     Training Configuration
                                 </h3>
@@ -867,9 +834,9 @@
                             <div class="card-header">
                                 <h3 class="card-title">
                                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <rect x="3" y="3" width="18" height="18" rx="2"/>
-                                        <circle cx="8.5" cy="8.5" r="1.5"/>
-                                        <path d="M21 15l-5-5L5 21"/>
+                                        <rect x="3" y="3" width="18" height="18" rx="2" />
+                                        <circle cx="8.5" cy="8.5" r="1.5" />
+                                        <path d="M21 15l-5-5L5 21" />
                                     </svg>
                                     Preprocessing Pipeline
                                 </h3>
@@ -928,9 +895,10 @@
                             <div class="card-header">
                                 <h3 class="card-title">
                                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/>
-                                        <path d="M3.27 6.96L12 12.01l8.73-5.05"/>
-                                        <path d="M12 22.08V12"/>
+                                        <path
+                                            d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z" />
+                                        <path d="M3.27 6.96L12 12.01l8.73-5.05" />
+                                        <path d="M12 22.08V12" />
                                     </svg>
                                     Training Data Inference
                                 </h3>
@@ -981,8 +949,8 @@
                             <div class="card-header">
                                 <h3 class="card-title">
                                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <circle cx="12" cy="12" r="3"/>
-                                        <path d="M12 2v4M12 18v4M2 12h4M18 12h4"/>
+                                        <circle cx="12" cy="12" r="3" />
+                                        <path d="M12 2v4M12 18v4M2 12h4M18 12h4" />
                                     </svg>
                                     Architecture Detection
                                 </h3>
@@ -1019,9 +987,9 @@
                             <div class="card-header">
                                 <h3 class="card-title">
                                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <rect x="4" y="4" width="16" height="16" rx="2"/>
-                                        <path d="M9 9h6v6H9z"/>
-                                        <path d="M9 1v3M15 1v3M9 20v3M15 20v3M20 9h3M20 14h3M1 9h3M1 14h3"/>
+                                        <rect x="4" y="4" width="16" height="16" rx="2" />
+                                        <path d="M9 9h6v6H9z" />
+                                        <path d="M9 1v3M15 1v3M9 20v3M15 20v3M20 9h3M20 14h3M1 9h3M1 14h3" />
                                     </svg>
                                     Quantization & Optimization
                                 </h3>
@@ -1057,32 +1025,33 @@
                             <div class="card-header">
                                 <h3 class="card-title">
                                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
-                                        <path d="M14 2v6h6"/>
-                                        <path d="M16 13H8"/>
-                                        <path d="M16 17H8"/>
-                                        <path d="M10 9H8"/>
+                                        <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" />
+                                        <path d="M14 2v6h6" />
+                                        <path d="M16 13H8" />
+                                        <path d="M16 17H8" />
+                                        <path d="M10 9H8" />
                                     </svg>
                                     Raw Extracted Data
                                 </h3>
                                 <div class="card-actions">
                                     <button class="card-action" id="copy-raw-data" title="Copy JSON">
                                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                            <rect x="9" y="9" width="13" height="13" rx="2"/>
-                                            <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/>
+                                            <rect x="9" y="9" width="13" height="13" rx="2" />
+                                            <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1" />
                                         </svg>
                                     </button>
                                     <button class="card-action" id="download-raw-data" title="Download JSON">
                                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                            <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
-                                            <path d="M7 10l5 5 5-5"/>
-                                            <path d="M12 15V3"/>
+                                            <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4" />
+                                            <path d="M7 10l5 5 5-5" />
+                                            <path d="M12 15V3" />
                                         </svg>
                                     </button>
                                 </div>
                             </div>
                             <div class="raw-data-container">
-                                <pre class="raw-data-view" id="raw-data-view">// Load a model to see extracted data</pre>
+                                <pre class="raw-data-view"
+                                    id="raw-data-view">// Load a model to see extracted data</pre>
                             </div>
                         </div>
                     </div>
@@ -1097,9 +1066,11 @@
                         <div class="card settings-card">
                             <div class="card-header">
                                 <h3 class="card-title">
-                                    <svg class="card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <circle cx="12" cy="12" r="3"/>
-                                        <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+                                    <svg class="card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2">
+                                        <circle cx="12" cy="12" r="3" />
+                                        <path
+                                            d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
                                     </svg>
                                     General Settings
                                 </h3>
@@ -1145,9 +1116,10 @@
                         <div class="card settings-card">
                             <div class="card-header">
                                 <h3 class="card-title">
-                                    <svg class="card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <circle cx="12" cy="12" r="3"/>
-                                        <path d="M12 2v4M12 18v4M2 12h4M18 12h4"/>
+                                    <svg class="card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2">
+                                        <circle cx="12" cy="12" r="3" />
+                                        <path d="M12 2v4M12 18v4M2 12h4M18 12h4" />
                                     </svg>
                                     Visualizer Settings
                                 </h3>
@@ -1202,10 +1174,11 @@
                         <div class="card settings-card">
                             <div class="card-header">
                                 <h3 class="card-title">
-                                    <svg class="card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
-                                        <path d="M7 10l5 5 5-5"/>
-                                        <path d="M12 15V3"/>
+                                    <svg class="card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2">
+                                        <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4" />
+                                        <path d="M7 10l5 5 5-5" />
+                                        <path d="M12 15V3" />
                                     </svg>
                                     Export Settings
                                 </h3>
@@ -1249,9 +1222,10 @@
                         <div class="card settings-card">
                             <div class="card-header">
                                 <h3 class="card-title">
-                                    <svg class="card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <path d="M3 3v18h18"/>
-                                        <path d="M7 16l4-4 4 4 5-5"/>
+                                    <svg class="card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2">
+                                        <path d="M3 3v18h18" />
+                                        <path d="M7 16l4-4 4 4 5-5" />
                                     </svg>
                                     Metrics & Analysis
                                 </h3>
@@ -1297,10 +1271,11 @@
                         <div class="card settings-card">
                             <div class="card-header">
                                 <h3 class="card-title">
-                                    <svg class="card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <path d="M12 2L2 7l10 5 10-5-10-5z"/>
-                                        <path d="M2 17l10 5 10-5"/>
-                                        <path d="M2 12l10 5 10-5"/>
+                                    <svg class="card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2">
+                                        <path d="M12 2L2 7l10 5 10-5-10-5z" />
+                                        <path d="M2 17l10 5 10-5" />
+                                        <path d="M2 12l10 5 10-5" />
                                     </svg>
                                     Data & Storage
                                 </h3>
@@ -1339,20 +1314,22 @@
                         <div class="card settings-card about-card">
                             <div class="card-header">
                                 <h3 class="card-title">
-                                    <svg class="card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <circle cx="12" cy="12" r="10"/>
-                                        <path d="M12 16v-4"/>
-                                        <path d="M12 8h.01"/>
+                                    <svg class="card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2">
+                                        <circle cx="12" cy="12" r="10" />
+                                        <path d="M12 16v-4" />
+                                        <path d="M12 8h.01" />
                                     </svg>
                                     About Lucefact
                                 </h3>
                             </div>
                             <div class="about-section">
                                 <div class="about-logo">
-                                    <svg width="64" height="64" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5">
-                                        <rect x="2" y="2" width="28" height="28" rx="6"/>
-                                        <circle cx="16" cy="16" r="6"/>
-                                        <path d="M16 4v6M16 22v6M4 16h6M22 16h6"/>
+                                    <svg width="64" height="64" viewBox="0 0 32 32" fill="none" stroke="currentColor"
+                                        stroke-width="1.5">
+                                        <rect x="2" y="2" width="28" height="28" rx="6" />
+                                        <circle cx="16" cy="16" r="6" />
+                                        <path d="M16 4v6M16 22v6M4 16h6M22 16h6" />
                                     </svg>
                                 </div>
                                 <div class="about-info">
@@ -1387,7 +1364,7 @@
                 <h3 class="modal-title">Layer Comparison</h3>
                 <button class="modal-close" id="close-comparison">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M18 6L6 18M6 6l12 12"/>
+                        <path d="M18 6L6 18M6 6l12 12" />
                     </svg>
                 </button>
             </div>
@@ -1405,7 +1382,7 @@
                 <h3 class="modal-title">Keyboard Shortcuts</h3>
                 <button class="modal-close" id="close-shortcuts">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M18 6L6 18M6 6l12 12"/>
+                        <path d="M18 6L6 18M6 6l12 12" />
                     </svg>
                 </button>
             </div>
@@ -1455,7 +1432,7 @@
         <div class="loading-content">
             <div class="loading-spinner">
                 <svg viewBox="0 0 50 50">
-                    <circle cx="25" cy="25" r="20" fill="none" stroke="currentColor" stroke-width="3"/>
+                    <circle cx="25" cy="25" r="20" fill="none" stroke="currentColor" stroke-width="3" />
                 </svg>
             </div>
             <p class="loading-text">Analyzing Architecture</p>
@@ -1465,4 +1442,5 @@
 
     <script type="module" src="/src/main.ts"></script>
 </body>
+
 </html>
