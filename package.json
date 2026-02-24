@@ -1,6 +1,6 @@
 {
   "name": "lucefact",
-  "version": "2.67.0",
+  "version": "3.0.0",
   "description": "Neural Architecture Intelligence Platform",
   "main": "dist/index.js",
   "scripts": {

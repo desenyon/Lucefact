@@ -4,7 +4,7 @@
 
 > Illuminating your models with elegance and precision
 
-![Version](https://img.shields.io/badge/version-0.4.0-yellow)
+![Version](https://img.shields.io/badge/version-3.0.0-yellow)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.3-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
 
